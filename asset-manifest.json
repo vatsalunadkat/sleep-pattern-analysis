@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/vunadkat6/sleep-pattern-analysis/static/css/main.f855e6bc.css",
+    "main.js": "/vunadkat6/sleep-pattern-analysis/static/js/main.b3af8dd6.js",
+    "static/js/453.946cfddc.chunk.js": "/vunadkat6/sleep-pattern-analysis/static/js/453.946cfddc.chunk.js",
+    "static/media/logo.svg": "/vunadkat6/sleep-pattern-analysis/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/vunadkat6/sleep-pattern-analysis/index.html",
+    "main.f855e6bc.css.map": "/vunadkat6/sleep-pattern-analysis/static/css/main.f855e6bc.css.map",
+    "main.b3af8dd6.js.map": "/vunadkat6/sleep-pattern-analysis/static/js/main.b3af8dd6.js.map",
+    "453.946cfddc.chunk.js.map": "/vunadkat6/sleep-pattern-analysis/static/js/453.946cfddc.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f855e6bc.css",
+    "static/js/main.b3af8dd6.js"
+  ]
+}
