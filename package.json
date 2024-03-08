@@ -1,8 +1,8 @@
 {
   "name": "sleep-pattern-analysis",
   "version": "0.1.0",
-  "private": true,
-  "homepage": "https://github.gatech.edu/vunadkat6/sleep-pattern-analysis",
+  "private": false,
+  "homepage": "https://github.gatech.edu/pages/vunadkat6/sleep-pattern-analysis/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -14,7 +14,7 @@
   },
   "scripts": {
     "predeploy": "npm run build",
-    "deploy": "gh-pages -b gh-pages -d build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
