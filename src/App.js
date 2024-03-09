@@ -36,14 +36,13 @@ function App() {
     return (
         <div className="App">
             <header className="App-header">
-                <h1>GitHub Pages - Hello World!</h1>
-                <button onClick={handleImport} style={{ position: 'absolute', top: '10px', right: '10px' }}>
+                <button className="ImportButton" onClick={handleImport}>
                     Import
                 </button>
             </header>
 
             {jsonData && (
-                <div style={{ marginTop: '20px' }}>
+                <div className="ImportedData">
                     <h2>Imported JSON Data:</h2>
                     <pre>{JSON.stringify(jsonData, null, 2)}</pre>
                 </div>

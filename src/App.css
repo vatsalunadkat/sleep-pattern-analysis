@@ -1,9 +1,18 @@
 .App {
-  text-align: center;
+  background: #f0f8ff;
+  padding: 20px;
 }
 
 .App-header {
-  background-color: #282c34;
-  padding: 20px;
-  color: lightcyan;
+  text-align: right;
+}
+
+.ImportButton {
+  font-size: 1.2em;
+  margin-bottom: 20px;
+}
+
+.ImportedData {
+  margin-top: 20px;
+  text-align: left;
 }
