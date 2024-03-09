@@ -36,6 +36,7 @@ function App() {
     return (
         <div className="App">
             <header className="App-header">
+                <h1 className="ProjectTitle">Sleep Pattern Analysis App (SPAA)</h1>
                 <button className="ImportButton" onClick={handleImport}>
                     Import
                 </button>
