@@ -4,6 +4,18 @@ import './App.css';
 function App() {
     const [jsonData, setJsonData] = useState(null);
 
+    const calculateDuration = (sleepData) => {
+        // Calculate duration if startTime and endTime are present
+        if (!sleepData.duration && sleepData.startTime && sleepData.endTime) {
+            const startTime = new Date(sleepData.startTime);
+            const endTime = new Date(sleepData.endTime);
+            const duration = endTime - startTime;
+            console.log(`Duration calculated for logId ${sleepData.logId}: ${duration} milliseconds`);
+            return duration;
+        }
+        return sleepData.duration;
+    };
+
     const handleImport = async (event) => {
         try {
             const fileInput = document.createElement('input');
@@ -17,7 +29,14 @@ function App() {
                     fileReader.onload = (e) => {
                         const data = e.target.result;
                         try {
-                            const parsedData = JSON.parse(data);
+                            let parsedData = JSON.parse(data);
+
+                            // Process each object in the array
+                            parsedData = parsedData.map((item) => ({
+                                ...item,
+                                duration: calculateDuration(item),
+                            }));
+
                             setJsonData(parsedData);
                         } catch (error) {
                             console.error('Error parsing JSON file:', error);
