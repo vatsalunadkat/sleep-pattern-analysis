@@ -16,6 +16,27 @@ function App() {
         return sleepData.duration;
     };
 
+    const calculateTimeInBed = (sleepData) => {
+        // Calculate timeInBed if duration is present
+        if (!sleepData.timeInBed && sleepData.duration) {
+            const timeInBed = sleepData.duration / 60000;
+            console.log(`Time in bed calculated for logId ${sleepData.logId}: ${timeInBed} minutes`);
+            return timeInBed;
+        }
+        return sleepData.timeInBed;
+    };
+
+    const calculateEfficiency = (sleepData) => {
+        // Calculate efficiency if minutesAsleep and timeInBed are present
+        if (!sleepData.efficiency && sleepData.minutesAsleep && sleepData.timeInBed) {
+            const efficiency = (sleepData.minutesAsleep / sleepData.timeInBed) * 100;
+            const roundedEfficiency = efficiency.toFixed(2); // Limit to 2 decimal places
+            console.log(`Efficiency calculated for logId ${sleepData.logId}: ${roundedEfficiency}%`);
+            return roundedEfficiency;
+        }
+        return sleepData.efficiency;
+    };
+
     const handleImport = async (event) => {
         try {
             const fileInput = document.createElement('input');
@@ -32,10 +53,18 @@ function App() {
                             let parsedData = JSON.parse(data);
 
                             // Process each object in the array
-                            parsedData = parsedData.map((item) => ({
-                                ...item,
-                                duration: calculateDuration(item),
-                            }));
+                            parsedData = parsedData.map((item) => {
+                                const duration = calculateDuration(item);
+                                const timeInBed = calculateTimeInBed({ ...item, duration });
+                                const efficiency = calculateEfficiency({ ...item, timeInBed });
+
+                                return {
+                                    ...item,
+                                    duration,
+                                    timeInBed,
+                                    efficiency,
+                                };
+                            });
 
                             setJsonData(parsedData);
                         } catch (error) {
