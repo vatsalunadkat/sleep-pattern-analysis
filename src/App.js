@@ -37,6 +37,25 @@ function App() {
         return sleepData.efficiency;
     };
 
+    const calculateLevelsSummary = (sleepData) => {
+        // Calculate levels summary from data
+        const levelsSummary = {
+            deep: { count: 0, minutes: 0 },
+            light: { count: 0, minutes: 0 },
+            rem: { count: 0, minutes: 0 },
+            wake: { count: 0, minutes: 0 }
+        };
+
+        sleepData.levels.data.forEach((entry) => {
+            const { level, seconds } = entry;
+            levelsSummary[level].count++;
+            levelsSummary[level].minutes += seconds / 60;
+        });
+
+        console.log(`Levels summary calculated for logId ${sleepData.logId}:`, levelsSummary);
+        return levelsSummary;
+    };
+
     const handleImport = async (event) => {
         try {
             const fileInput = document.createElement('input');
@@ -54,15 +73,17 @@ function App() {
 
                             // Process each object in the array
                             parsedData = parsedData.map((item) => {
-                                const duration = calculateDuration(item);
-                                const timeInBed = calculateTimeInBed({ ...item, duration });
-                                const efficiency = calculateEfficiency({ ...item, timeInBed });
+                                const duration = calculateDuration(item); // Calculate duration if missing
+                                const timeInBed = calculateTimeInBed({ ...item, duration }); // Calculate timeInBed using duration
+                                const efficiency = calculateEfficiency({ ...item, timeInBed }); // Calculate efficiency using timeInBed
+                                const levelsSummary = calculateLevelsSummary(item); // Calculate levels summary from data
 
                                 return {
                                     ...item,
                                     duration,
                                     timeInBed,
                                     efficiency,
+                                    levels: { summary: levelsSummary }
                                 };
                             });
 
