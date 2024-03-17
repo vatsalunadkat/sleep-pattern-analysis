@@ -49,7 +49,7 @@ function App() {
         // Calculate efficiency if minutesAsleep and timeInBed are present
         if (!sleepData.efficiency && sleepData.minutesAsleep && sleepData.timeInBed) {
             const efficiency = (sleepData.minutesAsleep / sleepData.timeInBed) * 100;
-            const roundedEfficiency = efficiency.toFixed(2); // Limit to 2 decimal places
+            const roundedEfficiency = efficiency.toFixed(2);
             console.log(`Efficiency calculated for logId ${sleepData.logId}: ${roundedEfficiency}%`);
             return roundedEfficiency;
         }
@@ -73,23 +73,25 @@ function App() {
 
                             // Process each object in the array
                             parsedData = parsedData.map((item) => {
-                                const levelsSummary = calculateLevelsSummary(item); // Calculate levels summary from data
-                                const duration = calculateDuration(item); // Calculate duration if missing
-                                const timeInBed = calculateTimeInBed({ ...item, duration }); // Calculate timeInBed using duration
-                                const efficiency = calculateEfficiency({ ...item, timeInBed }); // Calculate efficiency using timeInBed
+                                const levelsSummary = calculateLevelsSummary(item);
+                                const duration = calculateDuration(item);
+                                const timeInBed = calculateTimeInBed({ ...item, duration });
+                                const efficiency = calculateEfficiency({ ...item, timeInBed });
 
                                 return {
                                     ...item,
+                                    levels: { summary: levelsSummary, data: item.levels.data },
                                     duration,
                                     timeInBed,
-                                    efficiency,
-                                    levels: { summary: levelsSummary, data: item.levels.data },
+                                    efficiency
                                 };
                             });
 
-                            setJsonData(parsedData);
+                            // Filter out null values (indicating error) and set the state
+                            setJsonData(parsedData.filter((item) => item !== null));
                         } catch (error) {
                             console.error('Error parsing JSON file:', error);
+                            alert(error.message);
                         }
                     };
                     fileReader.readAsText(file);
@@ -99,6 +101,7 @@ function App() {
             fileInput.click();
         } catch (error) {
             console.error('Error importing JSON file:', error);
+            alert(error.message);
         }
     };
 
