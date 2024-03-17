@@ -24,15 +24,21 @@ function App() {
     };
 
     const calculateDuration = (sleepData) => {
-        // Calculate duration if startTime and endTime are present
-        if (!sleepData.duration && sleepData.startTime && sleepData.endTime) {
-            const startTime = new Date(sleepData.startTime);
-            const endTime = new Date(sleepData.endTime);
-            const duration = endTime - startTime;
-            console.log(`Duration calculated for logId ${sleepData.logId}: ${duration} milliseconds`);
-            return duration;
+        const startTime = new Date(sleepData.startTime);
+        const endTime = new Date(sleepData.endTime);
+        const duration1 = endTime - startTime;
+
+        const levelsSummary = calculateLevelsSummary(sleepData);
+        const duration2 = Object.values(levelsSummary).reduce((total, level) => total + level.minutes, 0) * 60 * 1000;
+
+        const errorMargin = 0.05; // 5% error margin
+        if (Math.abs(duration1 - duration2) / duration1 > errorMargin) {
+            console.error(`Inconsistent JSON for logId ${sleepData.logId}: Duration calculated using different methods.`);
+            return null;
         }
-        return sleepData.duration;
+
+        console.log(`Duration calculated for logId ${sleepData.logId}: ${duration2} minutes`);
+        return duration2;
     };
 
     const calculateTimeInBed = (sleepData) => {
