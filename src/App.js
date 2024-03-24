@@ -55,10 +55,11 @@ function App() {
         return sleepData.timeInBed;
     };
 
-    const calculateEfficiency = (sleepData) => {
-        // Calculate efficiency if minutesAsleep and timeInBed are present
-        if (!sleepData.efficiency && sleepData.minutesAsleep && sleepData.timeInBed) {
-            const efficiency = (sleepData.minutesAsleep / sleepData.timeInBed) * 100;
+    const calculateEfficiency = (sleepData, levelsSummary) => {
+        // Calculate efficiency if timeInBed and levelsSummary is present
+        if (!sleepData.efficiency && sleepData.timeInBed && levelsSummary) {
+            const calAsleep = levelsSummary.deep.minutes + levelsSummary.light.minutes + levelsSummary.rem.minutes;
+            const efficiency = (calAsleep / sleepData.timeInBed) * 100;
             const roundedEfficiency = efficiency.toFixed(2);
             console.log(`Efficiency calculated for logId ${sleepData.logId}: ${roundedEfficiency}%`);
             return roundedEfficiency;
@@ -84,10 +85,10 @@ function App() {
                             // Process each object in the array
                             parsedData = parsedData.map((item) => {
                                 try {
+                                    const levelsSummary = calculateLevelsSummary(item);
                                     const duration = calculateDuration(item);
                                     const timeInBed = calculateTimeInBed({ ...item, duration });
-                                    const efficiency = calculateEfficiency({ ...item, timeInBed });
-                                    const levelsSummary = calculateLevelsSummary(item);
+                                    const efficiency = calculateEfficiency({ ...item, timeInBed }, levelsSummary);
 
                                     return {
                                         ...item,
