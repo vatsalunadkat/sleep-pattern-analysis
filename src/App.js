@@ -24,21 +24,25 @@ function App() {
     };
 
     const calculateDuration = (sleepData) => {
+        // Calculate duration using endTime - startTime
         const startTime = new Date(sleepData.startTime);
         const endTime = new Date(sleepData.endTime);
         const duration1 = endTime - startTime;
 
+        // Calculate duration using sum of level minutes
         const levelsSummary = calculateLevelsSummary(sleepData);
         const duration2 = Object.values(levelsSummary).reduce((total, level) => total + level.minutes, 0) * 60 * 1000;
 
+        // Check for consistency
         const errorMargin = 0.05; // 5% error margin
         if (Math.abs(duration1 - duration2) / duration1 > errorMargin) {
-            console.error(`Inconsistent JSON for logId ${sleepData.logId}: Duration calculated using different methods.`);
-            return null;
+            const errorMessage = `Inconsistent JSON for logId ${sleepData.logId}: Duration calculated using different methods.`;
+            console.error(errorMessage);
+            throw new Error(errorMessage);
         }
 
-        console.log(`Duration calculated for logId ${sleepData.logId}: ${duration2} minutes`);
-        return duration2;
+        console.log(`Duration calculated for logId ${sleepData.logId}: ${duration1} milliseconds`);
+        return duration1;
     };
 
     const calculateTimeInBed = (sleepData) => {
@@ -79,25 +83,28 @@ function App() {
 
                             // Process each object in the array
                             parsedData = parsedData.map((item) => {
-                                const levelsSummary = calculateLevelsSummary(item);
-                                const duration = calculateDuration(item);
-                                const timeInBed = calculateTimeInBed({ ...item, duration });
-                                const efficiency = calculateEfficiency({ ...item, timeInBed });
+                                try {
+                                    const duration = calculateDuration(item);
+                                    const timeInBed = calculateTimeInBed({ ...item, duration });
+                                    const efficiency = calculateEfficiency({ ...item, timeInBed });
+                                    const levelsSummary = calculateLevelsSummary(item);
 
-                                return {
-                                    ...item,
-                                    levels: { summary: levelsSummary, data: item.levels.data },
-                                    duration,
-                                    timeInBed,
-                                    efficiency
-                                };
+                                    return {
+                                        ...item,
+                                        levels: { summary: levelsSummary, data: item.levels.data },
+                                        duration,
+                                        timeInBed,
+                                        efficiency
+                                    };
+                                } catch (error) {
+                                    console.error('Error processing sleep data:', error);
+                                    return item;
+                                }
                             });
 
-                            // Filter out null values (indicating error) and set the state
-                            setJsonData(parsedData.filter((item) => item !== null));
+                            setJsonData(parsedData);
                         } catch (error) {
                             console.error('Error parsing JSON file:', error);
-                            alert(error.message);
                         }
                     };
                     fileReader.readAsText(file);
@@ -107,7 +114,6 @@ function App() {
             fileInput.click();
         } catch (error) {
             console.error('Error importing JSON file:', error);
-            alert(error.message);
         }
     };
 
