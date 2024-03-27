@@ -67,6 +67,17 @@ function App() {
         return sleepData.efficiency;
     };
 
+    const calculateSleepMetrics = (sleepData, levelsSummary) => {
+        // Calculate minutesAsleep if levelsSummary is present
+        if (!sleepData.minutesAsleep && !sleepData.minutesAwake && levelsSummary) {
+            const minutesAsleep = levelsSummary.deep.minutes + levelsSummary.light.minutes + levelsSummary.rem.minutes;
+            const minutesAwake = levelsSummary.wake.minutes;
+            console.log(`Sleep metrics calculated for logId ${sleepData.logId}: {minutesAsleep: ${minutesAsleep}, minutesAwake: ${minutesAwake}}`);
+            return { minutesAsleep, minutesAwake };
+        }
+        return { minutesAsleep: sleepData.minutesAsleep, minutesAwake: sleepData.minutesAwake };
+    };
+
     const handleImport = async (event) => {
         try {
             const fileInput = document.createElement('input');
@@ -86,6 +97,7 @@ function App() {
                             parsedData = parsedData.map((item) => {
                                 try {
                                     const levelsSummary = calculateLevelsSummary(item);
+                                    const { minutesAsleep, minutesAwake } = calculateSleepMetrics(item, levelsSummary);
                                     const duration = calculateDuration(item);
                                     const timeInBed = calculateTimeInBed({ ...item, duration });
                                     const efficiency = calculateEfficiency({ ...item, timeInBed }, levelsSummary);
@@ -95,7 +107,9 @@ function App() {
                                         levels: { summary: levelsSummary, data: item.levels.data },
                                         duration,
                                         timeInBed,
-                                        efficiency
+                                        efficiency,
+                                        minutesAsleep,
+                                        minutesAwake
                                     };
                                 } catch (error) {
                                     console.error('Error processing sleep data:', error);
