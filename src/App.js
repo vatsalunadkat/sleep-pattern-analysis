@@ -78,6 +78,51 @@ function App() {
         return { minutesAsleep: sleepData.minutesAsleep, minutesAwake: sleepData.minutesAwake };
     };
 
+    const calculateSleepScore = (sleepData, duration, timeInBed, levelsSummary, efficiency, minutesAsleep, minutesAwake) => {
+        // Weights for each factor
+        const weightDuration = 0.1;
+        const weightREM = 0.3;
+        const weightDeep = 0.4;
+        const weightLight = 0.2;
+
+        // Calculate factors
+        const durationFactor = calculateDurationFactor(duration);
+        const remFactor = calculateSleepPhaseFactor(levelsSummary.rem.minutes, minutesAsleep, 0.25); // 25% of sleep should be in REM
+        const deepFactor = calculateSleepPhaseFactor(levelsSummary.deep.minutes, minutesAsleep, 0.23); // 23% of sleep should be in deep
+        const lightFactor = calculateSleepPhaseFactor(levelsSummary.light.minutes, minutesAsleep, 0.52); // 52% of sleep should be in light
+
+        // Calculate weighted sum of factors
+        const weightedSum = (weightDuration * durationFactor) + (weightREM * remFactor) + (weightDeep * deepFactor) + (weightLight * lightFactor);
+
+        // Normalize sleep score to range 60 (to not demotivate users) and 95
+        const minScore = 60;
+        const maxScore = 95;
+        const normalizedSleepScore = minScore + (weightedSum * (maxScore - minScore));
+
+        // Check if sleep score is below 70 or null or undefined, then fallback to 70
+        if (normalizedSleepScore < minScore || isNaN(normalizedSleepScore) || normalizedSleepScore === null || normalizedSleepScore === undefined) {
+            return minScore;
+        }
+
+        console.log(`Sleep score calculated for logId ${sleepData.logId}: ${normalizedSleepScore}`);
+        return normalizedSleepScore;
+    };
+
+    const calculateDurationFactor = (duration) => {
+        // Ideal duration for adults is 7 to 8 hours
+        const minIdealDuration = 7 * 60 * 60 * 1000; // 7 hours in milliseconds
+        const maxIdealDuration = 8 * 60 * 60 * 1000; // 8 hours in milliseconds
+        const idealDuration = (duration - minIdealDuration) / (maxIdealDuration - minIdealDuration); // Normalize between 0 and 1
+        return Math.max(0, Math.min(idealDuration, 1)); // Ensure value is between 0 and 1
+    };
+
+    const calculateSleepPhaseFactor = (phaseMinutes, totalMinutes, targetPercentage) => {
+        // Sleep phase factor: percentage of phase time compared to total sleep time
+        const idealPercentage = phaseMinutes / totalMinutes;
+        const deviation = Math.abs(idealPercentage - targetPercentage);
+        return 1 - deviation; // Inverse deviation: closer to 1 is better
+    };
+
     const handleImport = async (event) => {
         try {
             const fileInput = document.createElement('input');
@@ -101,6 +146,15 @@ function App() {
                                     const duration = calculateDuration(item);
                                     const timeInBed = calculateTimeInBed({ ...item, duration });
                                     const efficiency = calculateEfficiency({ ...item, timeInBed }, levelsSummary);
+                                    const sleepScore = calculateSleepScore(
+                                        item,
+                                        duration,
+                                        timeInBed,
+                                        levelsSummary,
+                                        efficiency,
+                                        minutesAsleep,
+                                        minutesAwake
+                                    );
 
                                     return {
                                         ...item,
@@ -109,7 +163,8 @@ function App() {
                                         timeInBed,
                                         efficiency,
                                         minutesAsleep,
-                                        minutesAwake
+                                        minutesAwake,
+                                        sleepScore
                                     };
                                 } catch (error) {
                                     console.error('Error processing sleep data:', error);
