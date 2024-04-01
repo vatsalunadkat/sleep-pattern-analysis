@@ -15,8 +15,12 @@ function App() {
 
         sleepData.levels.data.forEach((entry) => {
             const { level, seconds } = entry;
-            levelsSummary[level].count++;
-            levelsSummary[level].minutes += seconds / 60;
+            if (levelsSummary[level]) {
+                levelsSummary[level].count++;
+                if (levelsSummary[level].minutes !== undefined) {
+                    levelsSummary[level].minutes += seconds / 60;
+                }
+            }
         });
 
         console.log(`Levels summary calculated for logId ${sleepData.logId}:`, levelsSummary);
@@ -123,6 +127,101 @@ function App() {
         return 1 - deviation; // Inverse deviation: closer to 1 is better
     };
 
+    const calculateOverallSummary = (jsonData) => {
+        // Initialize variables for overall summary
+        let totalSleepScore = 0;
+        let totalEfficiency = 0;
+        let totalHoursSlept = 0;
+        let totalSleepDebt = 0;
+        let totalDeepStagePercent = 0;
+        let totalRemStagePercent = 0;
+        let totalLightStagePercent = 0;
+        const averageValuesPerDay = [];
+
+        // Initialize object to store aggregated data per date
+        const aggregatedDataPerDate = {};
+
+        // Iterate through each item in the JSON data
+        jsonData.forEach((item) => {
+            const date = item.dateOfSleep.slice(0, 10); // Extract date from dateOfSleep
+
+            // Calculate sleep score and efficiency for each item
+            totalSleepScore += item.sleepScore;
+            totalEfficiency += item.efficiency;
+
+            // Calculate hours slept and sleep debt
+            const hoursSlept = item.duration / (60 * 60 * 1000); // Convert milliseconds to hours
+            totalHoursSlept += hoursSlept;
+            totalSleepDebt += 8 - hoursSlept; // Assuming ideal sleep duration is 8 hours
+
+            // Calculate percentage of time spent in each sleep stage
+            const totalMinutes = item.minutesAsleep + item.minutesAwake;
+            const deepStagePercent = item.levels.summary.deep ? (item.levels.summary.deep.minutes / totalMinutes) * 100 : 0;
+            const remStagePercent = item.levels.summary.rem ? (item.levels.summary.rem.minutes / totalMinutes) * 100 : 0;
+            const lightStagePercent = item.levels.summary.light ? (item.levels.summary.light.minutes / totalMinutes) * 100 : 0;
+            totalDeepStagePercent += deepStagePercent;
+            totalRemStagePercent += remStagePercent;
+            totalLightStagePercent += lightStagePercent;
+
+            // Aggregate data per date
+            if (!aggregatedDataPerDate[date]) {
+                aggregatedDataPerDate[date] = {
+                    sleepScorePerDay: item.sleepScore,
+                    efficiencyPerDay: item.efficiency,
+                    hoursSlept,
+                    sleepDebt: 8 - hoursSlept,
+                    deepStagePercent,
+                    remStagePercent,
+                    lightStagePercent
+                };
+            } else {
+                aggregatedDataPerDate[date].sleepScorePerDay += item.sleepScore;
+                aggregatedDataPerDate[date].efficiencyPerDay += item.efficiency;
+                aggregatedDataPerDate[date].hoursSlept += hoursSlept;
+                aggregatedDataPerDate[date].sleepDebt += 8 - hoursSlept;
+                aggregatedDataPerDate[date].deepStagePercent += deepStagePercent;
+                aggregatedDataPerDate[date].remStagePercent += remStagePercent;
+                aggregatedDataPerDate[date].lightStagePercent += lightStagePercent;
+            }
+        });
+
+        // Calculate overall average sleep score and efficiency
+        const overallAverageSleepScore = totalSleepScore / jsonData.length;
+        const overallAverageEfficiency = totalEfficiency / jsonData.length;
+
+        // Calculate average values per day and aggregate them
+        for (const date in aggregatedDataPerDate) {
+            const averageValues = { [date]: {} };
+            for (const key in aggregatedDataPerDate[date]) {
+                averageValues[date][key] = aggregatedDataPerDate[date][key] / jsonData.filter(item => item.dateOfSleep.slice(0, 10) === date).length;
+            }
+            averageValuesPerDay.push(averageValues);
+        }
+
+        // Calculate overall average sleep debt and stage percentages
+        const overallAverageHoursSlept = totalHoursSlept / jsonData.length;
+        const overallAverageSleepDebt = totalSleepDebt / jsonData.length;
+        const overallAverageDeepStagePercent = totalDeepStagePercent / jsonData.length;
+        const overallAverageRemStagePercent = totalRemStagePercent / jsonData.length;
+        const overallAverageLightStagePercent = totalLightStagePercent / jsonData.length;
+
+        // Construct the overall summary object
+        const overallSummary = {
+            averageSleepScore: overallAverageSleepScore,
+            averageEfficiency: overallAverageEfficiency,
+            totalHoursSlept: totalHoursSlept,
+            totalSleepDebt: totalSleepDebt,
+            averageDeepStagePercent: overallAverageDeepStagePercent,
+            averageRemStagePercent: overallAverageRemStagePercent,
+            averageLightStagePercent: overallAverageLightStagePercent,
+            averageValuesPerDay,
+            processedData: jsonData
+        };
+
+        return overallSummary;
+    };
+
+
     const handleImport = async (event) => {
         try {
             const fileInput = document.createElement('input');
@@ -172,7 +271,13 @@ function App() {
                                 }
                             });
 
-                            setJsonData(parsedData);
+                            // Calculate overall summary
+                            const overallSummary = calculateOverallSummary(parsedData);
+
+                            // Prepend the overall summary to the JSON data array
+                            const finalData = [overallSummary, ...parsedData];
+
+                            setJsonData(finalData);
                         } catch (error) {
                             console.error('Error parsing JSON file:', error);
                         }
