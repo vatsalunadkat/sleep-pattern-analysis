@@ -194,22 +194,22 @@ function App() {
             averageValuesPerDay.push(averageValues);
         }
 
-        // Calculate overall average sleep debt and stage percentages
         const overallAverageHoursSlept = (totalHoursSlept / jsonData.length).toFixed(3);
         const overallAverageSleepDebt = (totalSleepDebt / jsonData.length).toFixed(3);
         const overallAverageDeepStagePercent = (totalDeepStagePercent / jsonData.length).toFixed(3);
         const overallAverageRemStagePercent = (totalRemStagePercent / jsonData.length).toFixed(3);
         const overallAverageLightStagePercent = (totalLightStagePercent / jsonData.length).toFixed(3);
 
-        // Construct the overall summary object
         const overallSummary = {
-            averageSleepScore: overallAverageSleepScore,
-            averageEfficiency: overallAverageEfficiency,
-            totalHoursSlept: totalHoursSlept.toFixed(3),
-            totalSleepDebt: totalSleepDebt.toFixed(3),
-            averageDeepStagePercent: overallAverageDeepStagePercent,
-            averageRemStagePercent: overallAverageRemStagePercent,
-            averageLightStagePercent: overallAverageLightStagePercent,
+            averageSleepScore: parseFloat(overallAverageSleepScore),
+            averageEfficiency: parseFloat(overallAverageEfficiency),
+            totalHoursSlept: parseFloat(totalHoursSlept.toFixed(3)),
+            overallAverageHoursSlept: parseFloat(overallAverageHoursSlept),
+            totalSleepDebt: parseFloat(totalSleepDebt.toFixed(3)),
+            overallAverageSleepDebt: parseFloat(overallAverageSleepDebt),
+            averageDeepStagePercent: parseFloat(overallAverageDeepStagePercent),
+            averageRemStagePercent: parseFloat(overallAverageRemStagePercent),
+            averageLightStagePercent: parseFloat(overallAverageLightStagePercent),
             averageValuesPerDay,
             processedData: jsonData
         };
