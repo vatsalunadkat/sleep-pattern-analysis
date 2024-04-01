@@ -44,8 +44,14 @@ function App() {
             console.warn(errorMessage);
         }
 
-        console.log(`Duration calculated for logId ${sleepData.logId}: ${duration1} milliseconds`);
-        return duration1;
+        if (duration2 > duration1) {
+            console.log(`Duration calculated for logId ${sleepData.logId}: ${duration2} milliseconds`);
+            return duration2;
+        } else {
+            console.log(`Duration calculated for logId ${sleepData.logId}: ${duration1} milliseconds`);
+            return duration1;
+        }
+
     };
 
     const calculateTimeInBed = (sleepData) => {
