@@ -41,7 +41,7 @@ function App() {
         const errorMargin = 0.05; // 5% error margin
         if (Math.abs(duration1 - duration2) / duration1 > errorMargin) {
             const errorMessage = `Inconsistent JSON for logId ${sleepData.logId}: Duration calculated using different methods.`;
-            console.error(errorMessage);
+            console.warn(errorMessage);
         }
 
         console.log(`Duration calculated for logId ${sleepData.logId}: ${duration1} milliseconds`);
