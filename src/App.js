@@ -89,10 +89,10 @@ function App() {
 
     const calculateSleepScore = (sleepData, duration, timeInBed, levelsSummary, efficiency, minutesAsleep, minutesAwake) => {
         // Weights for each factor
-        const weightDuration = 0.1;
+        const weightDuration = 0.2;
         const weightREM = 0.3;
         const weightDeep = 0.4;
-        const weightLight = 0.2;
+        const weightLight = 0.1;
 
         // Calculate factors
         const durationFactor = calculateDurationFactor(duration);
