@@ -272,11 +272,8 @@ function App() {
                                 }
                             });
 
-                            // Calculate overall summary
-                            const overallSummary = calculateOverallSummary(parsedData);
-
                             // Prepend the overall summary to the JSON data array
-                            const finalData = [overallSummary, ...parsedData];
+                            const finalData = calculateOverallSummary(parsedData);
 
                             setJsonData(finalData);
                         } catch (error) {
