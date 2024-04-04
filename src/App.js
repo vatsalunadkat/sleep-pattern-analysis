@@ -144,7 +144,6 @@ function App() {
         const averageValuesPerDay = [];
         const aggregatedDataPerDate = {};
 
-        // Iterate through each item in the JSON data
         jsonData.forEach((item) => {
             const date = item.dateOfSleep.slice(0, 10); // Extract date from dateOfSleep
 
@@ -175,7 +174,8 @@ function App() {
                     sleepDebt: (8 - hoursSlept),
                     deepStagePercent,
                     remStagePercent,
-                    lightStagePercent
+                    lightStagePercent,
+                    itemCount: 1
                 };
             } else {
                 aggregatedDataPerDate[date].sleepScorePerDay += item.sleepScore;
@@ -185,27 +185,34 @@ function App() {
                 aggregatedDataPerDate[date].deepStagePercent += parseFloat(deepStagePercent);
                 aggregatedDataPerDate[date].remStagePercent += parseFloat(remStagePercent);
                 aggregatedDataPerDate[date].lightStagePercent += parseFloat(lightStagePercent);
+                aggregatedDataPerDate[date].itemCount++;
             }
         });
 
         // Calculate overall average sleep score and efficiency
-        const overallAverageSleepScore = (totalSleepScore / jsonData.length);
-        const overallAverageEfficiency = (totalEfficiency / jsonData.length);
+        const overallAverageSleepScore = totalSleepScore / jsonData.length;
+        const overallAverageEfficiency = totalEfficiency / jsonData.length;
 
         // Calculate average values per day and aggregate them
         for (const date in aggregatedDataPerDate) {
             const averageValues = {
                 date,
-                ...aggregatedDataPerDate[date]
+                sleepScorePerDay: aggregatedDataPerDate[date].sleepScorePerDay / aggregatedDataPerDate[date].itemCount,
+                efficiencyPerDay: aggregatedDataPerDate[date].efficiencyPerDay / aggregatedDataPerDate[date].itemCount,
+                hoursSlept: aggregatedDataPerDate[date].hoursSlept,
+                sleepDebt: aggregatedDataPerDate[date].sleepDebt,
+                deepStagePercent: aggregatedDataPerDate[date].deepStagePercent / aggregatedDataPerDate[date].itemCount,
+                remStagePercent: aggregatedDataPerDate[date].remStagePercent / aggregatedDataPerDate[date].itemCount,
+                lightStagePercent: aggregatedDataPerDate[date].lightStagePercent / aggregatedDataPerDate[date].itemCount
             };
             averageValuesPerDay.push(averageValues);
         }
 
-        const overallAverageHoursSlept = (totalHoursSlept / jsonData.length);
-        const overallAverageSleepDebt = (totalSleepDebt / jsonData.length);
-        const overallAverageDeepStagePercent = (totalDeepStagePercent / jsonData.length);
-        const overallAverageRemStagePercent = (totalRemStagePercent / jsonData.length);
-        const overallAverageLightStagePercent = (totalLightStagePercent / jsonData.length);
+        const overallAverageHoursSlept = totalHoursSlept / jsonData.length;
+        const overallAverageSleepDebt = totalSleepDebt / jsonData.length;
+        const overallAverageDeepStagePercent = totalDeepStagePercent / jsonData.length;
+        const overallAverageRemStagePercent = totalRemStagePercent / jsonData.length;
+        const overallAverageLightStagePercent = totalLightStagePercent / jsonData.length;
 
         const overallSummary = {
             averageSleepScore: parseFloat(overallAverageSleepScore),
@@ -295,90 +302,110 @@ function App() {
         <div className="App">
             <header className="App-header">
                 <h1 className="ProjectTitle">Sleep Pattern Analysis App (SPAA)</h1>
-                <button className="ImportButton" onClick={handleImport}>
-                    Import
-                </button>
+                <div className="Buttons">
+                    <button className="ImportButton" onClick={handleImport}>
+                        Import
+                    </button>
+                    <button className="SampleDataButton" onClick={handleImport}>
+                        Sample Data
+                    </button>
+                </div>
             </header>
 
             {jsonData && (
                 <div className="ImportedData">
-                    <h2>Sleep Score and Recommendation</h2>
-                    <div className="SleepScoreBox">
-                        <p className="SleepScore">Sleep Score: {jsonData.averageSleepScore}</p>
-                        <p className="Recommendation">Placeholder Recommendation Text</p>
+                    <div className="Banner">
+                        <div className="SleepScoreBox">
+                            <p className="SleepScore">Sleep Score: {jsonData.averageSleepScore}</p>
+                        </div>
+                        <div className="RecommendationBox">
+                            <p className="Recommendation">Placeholder Recommendation Text</p>
+                        </div>
                     </div>
 
-                    <h2>1. Sleep Score per Day</h2>
-                    <div className="GraphContainer">
-                        <ResponsiveContainer width="100%" height={300}>
-                            <LineChart data={jsonData.averageValuesPerDay}>
-                                <XAxis dataKey="date" />
-                                <YAxis />
-                                <CartesianGrid strokeDasharray="3 3" />
-                                <Tooltip />
-                                <Legend />
-                                <Line type="monotone" dataKey="sleepScorePerDay" stroke="#8884d8" activeDot={{ r: 8 }} />
-                            </LineChart>
-                        </ResponsiveContainer>
+                    <div className="GraphRow">
+                        <div className="GraphColumn">
+                            <h2 className="GraphTitle">1. Sleep Score per Day</h2>
+                            <div className="GraphContainer">
+                                <ResponsiveContainer width="100%" height={300}>
+                                    <LineChart data={jsonData.averageValuesPerDay}>
+                                        <XAxis dataKey="date" />
+                                        <YAxis />
+                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <Tooltip />
+                                        <Legend />
+                                        <Line type="monotone" dataKey="sleepScorePerDay" stroke="#8884d8" activeDot={{ r: 8 }} />
+                                    </LineChart>
+                                </ResponsiveContainer>
+                            </div>
+                        </div>
+
+                        <div className="GraphColumn">
+                            <h2 className="GraphTitle">2. Hours Slept and Sleep Debt per Day</h2>
+                            <div className="GraphContainer">
+                                <ResponsiveContainer width="100%" height={300}>
+                                    <BarChart data={jsonData.averageValuesPerDay}>
+                                        <XAxis dataKey="date" />
+                                        <YAxis />
+                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <Tooltip />
+                                        <Legend />
+                                        <Bar dataKey="hoursSlept" fill="#8884d8" />
+                                        <Bar dataKey="sleepDebt" fill="#82ca9d" />
+                                    </BarChart>
+                                </ResponsiveContainer>
+                            </div>
+                        </div>
                     </div>
 
-                    <h2>2. Hours Slept and Sleep Debt per Day</h2>
-                    <div className="GraphContainer">
-                        <ResponsiveContainer width="100%" height={300}>
-                            <BarChart data={jsonData.averageValuesPerDay}>
-                                <XAxis dataKey="date" />
-                                <YAxis />
-                                <CartesianGrid strokeDasharray="3 3" />
-                                <Tooltip />
-                                <Legend />
-                                <Bar dataKey="hoursSlept" fill="#8884d8" />
-                                <Bar dataKey="sleepDebt" fill="#82ca9d" />
-                            </BarChart>
-                        </ResponsiveContainer>
-                    </div>
+                    <div className="GraphRow">
+                        <div className="GraphColumn">
+                            <h2 className="GraphTitle">3. Sleep Efficiency per Day</h2>
+                            <div className="GraphContainer">
+                                <ResponsiveContainer width="100%" height={300}>
+                                    <AreaChart data={jsonData.averageValuesPerDay}>
+                                        <XAxis dataKey="date" />
+                                        <YAxis />
+                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <Tooltip />
+                                        <Legend />
+                                        <Area type="monotone" dataKey="efficiencyPerDay" fill="#8884d8" />
+                                    </AreaChart>
+                                </ResponsiveContainer>
+                            </div>
+                        </div>
 
-                    <h2>3. Sleep Efficiency per Day</h2>
-                    <div className="GraphContainer">
-                        <ResponsiveContainer width="100%" height={300}>
-                            <AreaChart data={jsonData.averageValuesPerDay}>
-                                <XAxis dataKey="date" />
-                                <YAxis />
-                                <CartesianGrid strokeDasharray="3 3" />
-                                <Tooltip />
-                                <Legend />
-                                <Area type="monotone" dataKey="efficiencyPerDay" fill="#8884d8" />
-                            </AreaChart>
-                        </ResponsiveContainer>
-                    </div>
-
-                    <h2>4. Time Spent in Each Sleep Stage/Phase</h2>
-                    <div className="GraphContainer">
-                        <ResponsiveContainer width="100%" height={300}>
-                            <PieChart>
-                                <Pie
-                                    dataKey="value"
-                                    isAnimationActive={false}
-                                    data={[
-                                        { name: 'Deep Stage', value: jsonData.averageDeepStagePercent },
-                                        { name: 'REM Stage', value: jsonData.averageRemStagePercent },
-                                        { name: 'Light Stage', value: jsonData.averageLightStagePercent },
-                                    ]}
-                                    cx="50%"
-                                    cy="50%"
-                                    outerRadius={80}
-                                    fill="#8884d8"
-                                    label
-                                >
-                                    {[
-                                        { name: 'Deep Stage', value: jsonData.averageDeepStagePercent, fill: '#8884d8' },
-                                        { name: 'REM Stage', value: jsonData.averageRemStagePercent, fill: '#82ca9d' },
-                                        { name: 'Light Stage', value: jsonData.averageLightStagePercent, fill: '#ffc658' },
-                                    ].map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={entry.fill} />
-                                    ))}
-                                </Pie>
-                            </PieChart>
-                        </ResponsiveContainer>
+                        <div className="GraphColumn">
+                            <h2 className="GraphTitle">4. Time Spent in Each Sleep Stage/Phase</h2>
+                            <div className="GraphContainer">
+                                <ResponsiveContainer width="100%" height={300}>
+                                    <PieChart>
+                                        <Pie
+                                            dataKey="value"
+                                            isAnimationActive={false}
+                                            data={[
+                                                { name: 'Deep Stage', value: jsonData.averageDeepStagePercent },
+                                                { name: 'REM Stage', value: jsonData.averageRemStagePercent },
+                                                { name: 'Light Stage', value: jsonData.averageLightStagePercent },
+                                            ]}
+                                            cx="50%"
+                                            cy="50%"
+                                            outerRadius={80}
+                                            fill="#8884d8"
+                                            label
+                                        >
+                                            {[
+                                                { name: 'Deep Stage', value: jsonData.averageDeepStagePercent, fill: '#8884d8' },
+                                                { name: 'REM Stage', value: jsonData.averageRemStagePercent, fill: '#82ca9d' },
+                                                { name: 'Light Stage', value: jsonData.averageLightStagePercent, fill: '#ffc658' },
+                                            ].map((entry, index) => (
+                                                <Cell key={`cell-${index}`} fill={entry.fill} />
+                                            ))}
+                                        </Pie>
+                                    </PieChart>
+                                </ResponsiveContainer>
+                            </div>
+                        </div>
                     </div>
                 </div>
             )}
