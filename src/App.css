@@ -1,10 +1,11 @@
 .App {
   text-align: center;
+  background-color: #F5E8DD;
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 20vh;
+  background-color: #B5C0D0;
+  min-height: 10vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -14,12 +15,22 @@
 }
 
 .ProjectTitle {
-  margin: 20px;
+  margin: 0;
 }
 
-.ImportButton {
+.Buttons {
+  margin-top: 10px;
+}
+
+.ImportButton,
+.SampleDataButton {
+  font-size: 1em;
+  margin: 10px;
   padding: 10px 20px;
-  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  background-color: #CCD3CA;
+  color: white;
   cursor: pointer;
 }
 
@@ -27,23 +38,67 @@
   margin-top: 20px;
 }
 
-.SleepScoreBox {
-  background-color: #f0f0f0;
+.Banner {
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 20px;
+  background-color: #EED3D9;
   border-radius: 10px;
-  margin-bottom: 20px;
+}
+
+.SleepScoreBox {
+  flex: 1;
+  text-align: left;
 }
 
 .SleepScore {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 10px;
+  margin: 0;
+  font-family: 'Roboto Mono', monospace;
+}
+
+.RecommendationBox {
+  flex: 4;
+  text-align: left;
+  padding-left: 20px;
 }
 
 .Recommendation {
-  font-size: 16px;
+  margin: 0;
+}
+
+.GraphRow {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.GraphColumn {
+  flex: 1;
+  margin-top: 2px;
+}
+
+.GraphBox {
+  width: 85%;
+  margin: 5% auto;
+  padding: 20px;
+  background-color: #CCD3CA;
+  border-radius: 10px;
+}
+
+.GraphTitle {
+  margin-bottom: 5px;
+}
+
+.GraphDescription {
+  margin-top: 15px;
 }
 
 .GraphContainer {
-  margin-bottom: 20px;
+  height: 300px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow: hidden;
 }

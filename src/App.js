@@ -301,7 +301,7 @@ function App() {
     return (
         <div className="App">
             <header className="App-header">
-                <h1 className="ProjectTitle">Sleep Pattern Analysis App (SPAA)</h1>
+                <h2 className="ProjectTitle">Sleep Pattern Analysis App (SPAA)</h2>
                 <div className="Buttons">
                     <button className="ImportButton" onClick={handleImport}>
                         Import
@@ -315,8 +315,9 @@ function App() {
             {jsonData && (
                 <div className="ImportedData">
                     <div className="Banner">
-                        <div className="SleepScoreBox">
-                            <p className="SleepScore">Sleep Score: {jsonData.averageSleepScore}</p>
+                        <div className="Score">
+                            <p className="SleepScore">Sleep Score</p>
+                            <p className="SleepScore">{jsonData.averageSleepScore.toFixed(0)} / 100</p>
                         </div>
                         <div className="RecommendationBox">
                             <p className="Recommendation">Placeholder Recommendation Text</p>
@@ -325,85 +326,97 @@ function App() {
 
                     <div className="GraphRow">
                         <div className="GraphColumn">
-                            <h2 className="GraphTitle">1. Sleep Score per Day</h2>
-                            <div className="GraphContainer">
-                                <ResponsiveContainer width="100%" height={300}>
-                                    <LineChart data={jsonData.averageValuesPerDay}>
-                                        <XAxis dataKey="date" />
-                                        <YAxis />
-                                        <CartesianGrid strokeDasharray="3 3" />
-                                        <Tooltip />
-                                        <Legend />
-                                        <Line type="monotone" dataKey="sleepScorePerDay" stroke="#8884d8" activeDot={{ r: 8 }} />
-                                    </LineChart>
-                                </ResponsiveContainer>
+                            <div className="GraphBox">
+                                <h2 className="GraphTitle">1. Sleep Score per Day</h2>
+                                <div className="GraphContainer">
+                                    <ResponsiveContainer width="100%" height={300}>
+                                        <LineChart data={jsonData.averageValuesPerDay}>
+                                            <XAxis dataKey="date" />
+                                            <YAxis />
+                                            <CartesianGrid strokeDasharray="3 3" />
+                                            <Tooltip />
+                                            <Legend />
+                                            <Line type="monotone" dataKey="sleepScorePerDay" stroke="#8884d8" activeDot={{ r: 8 }} />
+                                        </LineChart>
+                                    </ResponsiveContainer>
+                                </div>
+                                <p className="GraphDescription">Graph description text goes here.</p>
                             </div>
                         </div>
 
                         <div className="GraphColumn">
-                            <h2 className="GraphTitle">2. Hours Slept and Sleep Debt per Day</h2>
-                            <div className="GraphContainer">
-                                <ResponsiveContainer width="100%" height={300}>
-                                    <BarChart data={jsonData.averageValuesPerDay}>
-                                        <XAxis dataKey="date" />
-                                        <YAxis />
-                                        <CartesianGrid strokeDasharray="3 3" />
-                                        <Tooltip />
-                                        <Legend />
-                                        <Bar dataKey="hoursSlept" fill="#8884d8" />
-                                        <Bar dataKey="sleepDebt" fill="#82ca9d" />
-                                    </BarChart>
-                                </ResponsiveContainer>
+                            <div className="GraphBox">
+                                <h2 className="GraphTitle">2. Hours Slept and Sleep Debt per Day</h2>
+                                <div className="GraphContainer">
+                                    <ResponsiveContainer width="100%" height={300}>
+                                        <BarChart data={jsonData.averageValuesPerDay}>
+                                            <XAxis dataKey="date" />
+                                            <YAxis />
+                                            <CartesianGrid strokeDasharray="3 3" />
+                                            <Tooltip />
+                                            <Legend />
+                                            <Bar dataKey="hoursSlept" fill="#8884d8" />
+                                            <Bar dataKey="sleepDebt" fill="#82ca9d" />
+                                        </BarChart>
+                                    </ResponsiveContainer>
+                                </div>
+                                <p className="GraphDescription">Graph description text goes here.</p>
                             </div>
                         </div>
                     </div>
 
                     <div className="GraphRow">
                         <div className="GraphColumn">
-                            <h2 className="GraphTitle">3. Sleep Efficiency per Day</h2>
-                            <div className="GraphContainer">
-                                <ResponsiveContainer width="100%" height={300}>
-                                    <AreaChart data={jsonData.averageValuesPerDay}>
-                                        <XAxis dataKey="date" />
-                                        <YAxis />
-                                        <CartesianGrid strokeDasharray="3 3" />
-                                        <Tooltip />
-                                        <Legend />
-                                        <Area type="monotone" dataKey="efficiencyPerDay" fill="#8884d8" />
-                                    </AreaChart>
-                                </ResponsiveContainer>
+                            <div className="GraphBox">
+                                <h2 className="GraphTitle">3. Sleep Efficiency per Day</h2>
+                                <div className="GraphContainer">
+                                    <ResponsiveContainer width="100%" height={300}>
+                                        <AreaChart data={jsonData.averageValuesPerDay}>
+                                            <XAxis dataKey="date" />
+                                            <YAxis />
+                                            <CartesianGrid strokeDasharray="3 3" />
+                                            <Tooltip />
+                                            <Legend />
+                                            <Area type="monotone" dataKey="efficiencyPerDay" fill="#8884d8" />
+                                        </AreaChart>
+                                    </ResponsiveContainer>
+                                </div>
+                                <p className="GraphDescription">Graph description text goes here.</p>
                             </div>
                         </div>
 
                         <div className="GraphColumn">
-                            <h2 className="GraphTitle">4. Time Spent in Each Sleep Stage/Phase</h2>
-                            <div className="GraphContainer">
-                                <ResponsiveContainer width="100%" height={300}>
-                                    <PieChart>
-                                        <Pie
-                                            dataKey="value"
-                                            isAnimationActive={false}
-                                            data={[
-                                                { name: 'Deep Stage', value: jsonData.averageDeepStagePercent },
-                                                { name: 'REM Stage', value: jsonData.averageRemStagePercent },
-                                                { name: 'Light Stage', value: jsonData.averageLightStagePercent },
-                                            ]}
-                                            cx="50%"
-                                            cy="50%"
-                                            outerRadius={80}
-                                            fill="#8884d8"
-                                            label
-                                        >
-                                            {[
-                                                { name: 'Deep Stage', value: jsonData.averageDeepStagePercent, fill: '#8884d8' },
-                                                { name: 'REM Stage', value: jsonData.averageRemStagePercent, fill: '#82ca9d' },
-                                                { name: 'Light Stage', value: jsonData.averageLightStagePercent, fill: '#ffc658' },
-                                            ].map((entry, index) => (
-                                                <Cell key={`cell-${index}`} fill={entry.fill} />
-                                            ))}
-                                        </Pie>
-                                    </PieChart>
-                                </ResponsiveContainer>
+                            <div className="GraphBox">
+                                <h2 className="GraphTitle">4. Time Spent in Each Sleep Stage/Phase</h2>
+                                <div className="GraphContainer">
+                                    <ResponsiveContainer width="100%" height={300}>
+                                        <PieChart>
+                                            <Pie
+                                                dataKey="value"
+                                                isAnimationActive={false}
+                                                data={[
+                                                    { name: 'Deep Stage', value: jsonData.averageDeepStagePercent },
+                                                    { name: 'REM Stage', value: jsonData.averageRemStagePercent },
+                                                    { name: 'Light Stage', value: jsonData.averageLightStagePercent },
+                                                ]}
+                                                cx="50%"
+                                                cy="50%"
+                                                outerRadius={80}
+                                                fill="#8884d8"
+                                                label
+                                            >
+                                                {[
+                                                    { name: 'Deep Stage', value: jsonData.averageDeepStagePercent, fill: '#8884d8' },
+                                                    { name: 'REM Stage', value: jsonData.averageRemStagePercent, fill: '#82ca9d' },
+                                                    { name: 'Light Stage', value: jsonData.averageLightStagePercent, fill: '#ffc658' },
+                                                ].map((entry, index) => (
+                                                    <Cell key={`cell-${index}`} fill={entry.fill} />
+                                                ))}
+                                            </Pie>
+                                        </PieChart>
+                                    </ResponsiveContainer>
+                                </div>
+                                <p className="GraphDescription">Graph description text goes here.</p>
                             </div>
                         </div>
                     </div>
