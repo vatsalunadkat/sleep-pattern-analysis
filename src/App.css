@@ -1,24 +1,49 @@
 .App {
-  background: #f0f8ff;
-  padding: 20px;
+  text-align: center;
 }
 
 .App-header {
+  background-color: #282c34;
+  min-height: 20vh;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
 }
 
 .ProjectTitle {
-  margin: 10px;
+  margin: 20px;
 }
 
 .ImportButton {
-  font-size: 1.2em;
-  margin-top: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
 }
 
 .ImportedData {
   margin-top: 20px;
-  text-align: left;
+}
+
+.SleepScoreBox {
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.SleepScore {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.Recommendation {
+  font-size: 16px;
+}
+
+.GraphContainer {
+  margin-bottom: 20px;
 }
