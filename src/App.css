@@ -11,7 +11,7 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: black;
 }
 
 .ProjectTitle {
@@ -30,7 +30,7 @@
   border: none;
   border-radius: 5px;
   background-color: #CCD3CA;
-  color: white;
+  color: black;
   cursor: pointer;
 }
 
@@ -61,18 +61,18 @@
 
 .RecommendationBox {
   flex: 4;
-  text-align: left;
   padding-left: 20px;
 }
 
 .Recommendation {
   margin: 0;
+  text-align: left;
 }
 
 .GraphRow {
   display: flex;
   justify-content: space-between;
-  margin-top: 30px;
+  margin-top: 2px;
 }
 
 .GraphColumn {
@@ -82,14 +82,14 @@
 
 .GraphBox {
   width: 85%;
-  margin: 5% auto;
+  margin: 3% auto;
   padding: 20px;
   background-color: #CCD3CA;
   border-radius: 10px;
 }
 
 .GraphTitle {
-  margin-bottom: 5px;
+  margin-bottom: 15px;
 }
 
 .GraphDescription {

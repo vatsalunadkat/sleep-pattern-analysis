@@ -327,12 +327,12 @@ function App() {
                     <div className="GraphRow">
                         <div className="GraphColumn">
                             <div className="GraphBox">
-                                <h2 className="GraphTitle">1. Sleep Score per Day</h2>
+                                <h3 className="GraphTitle">Sleep Score per Day</h3>
                                 <div className="GraphContainer">
                                     <ResponsiveContainer width="100%" height={300}>
                                         <LineChart data={jsonData.averageValuesPerDay}>
                                             <XAxis dataKey="date" />
-                                            <YAxis />
+                                            <YAxis domain={[75, 100]} />
                                             <CartesianGrid strokeDasharray="3 3" />
                                             <Tooltip />
                                             <Legend />
@@ -346,7 +346,7 @@ function App() {
 
                         <div className="GraphColumn">
                             <div className="GraphBox">
-                                <h2 className="GraphTitle">2. Hours Slept and Sleep Debt per Day</h2>
+                                <h3 className="GraphTitle">Hours Slept and Sleep Debt per Day</h3>
                                 <div className="GraphContainer">
                                     <ResponsiveContainer width="100%" height={300}>
                                         <BarChart data={jsonData.averageValuesPerDay}>
@@ -368,12 +368,12 @@ function App() {
                     <div className="GraphRow">
                         <div className="GraphColumn">
                             <div className="GraphBox">
-                                <h2 className="GraphTitle">3. Sleep Efficiency per Day</h2>
+                                <h3 className="GraphTitle">Sleep Efficiency per Day</h3>
                                 <div className="GraphContainer">
                                     <ResponsiveContainer width="100%" height={300}>
                                         <AreaChart data={jsonData.averageValuesPerDay}>
                                             <XAxis dataKey="date" />
-                                            <YAxis />
+                                            <YAxis domain={[75, 100]}/>
                                             <CartesianGrid strokeDasharray="3 3" />
                                             <Tooltip />
                                             <Legend />
@@ -387,7 +387,7 @@ function App() {
 
                         <div className="GraphColumn">
                             <div className="GraphBox">
-                                <h2 className="GraphTitle">4. Time Spent in Each Sleep Stage/Phase</h2>
+                                <h3 className="GraphTitle">Time Spent in Each Sleep Stage/Phase</h3>
                                 <div className="GraphContainer">
                                     <ResponsiveContainer width="100%" height={300}>
                                         <PieChart>
@@ -413,6 +413,8 @@ function App() {
                                                     <Cell key={`cell-${index}`} fill={entry.fill} />
                                                 ))}
                                             </Pie>
+                                            <Tooltip />
+                                            <Legend />
                                         </PieChart>
                                     </ResponsiveContainer>
                                 </div>
