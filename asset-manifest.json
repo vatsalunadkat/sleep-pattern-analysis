@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/pages/vunadkat6/sleep-pattern-analysis/static/css/main.abdafebb.css",
-    "main.js": "/pages/vunadkat6/sleep-pattern-analysis/static/js/main.7cc0c72e.js",
-    "static/js/453.946cfddc.chunk.js": "/pages/vunadkat6/sleep-pattern-analysis/static/js/453.946cfddc.chunk.js",
+    "main.css": "/pages/vunadkat6/sleep-pattern-analysis/static/css/main.b337d3ae.css",
+    "main.js": "/pages/vunadkat6/sleep-pattern-analysis/static/js/main.1050468b.js",
+    "static/js/453.f80e0dc6.chunk.js": "/pages/vunadkat6/sleep-pattern-analysis/static/js/453.f80e0dc6.chunk.js",
     "index.html": "/pages/vunadkat6/sleep-pattern-analysis/index.html",
-    "main.abdafebb.css.map": "/pages/vunadkat6/sleep-pattern-analysis/static/css/main.abdafebb.css.map",
-    "main.7cc0c72e.js.map": "/pages/vunadkat6/sleep-pattern-analysis/static/js/main.7cc0c72e.js.map",
-    "453.946cfddc.chunk.js.map": "/pages/vunadkat6/sleep-pattern-analysis/static/js/453.946cfddc.chunk.js.map"
+    "main.b337d3ae.css.map": "/pages/vunadkat6/sleep-pattern-analysis/static/css/main.b337d3ae.css.map",
+    "main.1050468b.js.map": "/pages/vunadkat6/sleep-pattern-analysis/static/js/main.1050468b.js.map",
+    "453.f80e0dc6.chunk.js.map": "/pages/vunadkat6/sleep-pattern-analysis/static/js/453.f80e0dc6.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.abdafebb.css",
-    "static/js/main.7cc0c72e.js"
+    "static/css/main.b337d3ae.css",
+    "static/js/main.1050468b.js"
   ]
 }
