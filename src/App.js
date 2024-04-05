@@ -231,6 +231,22 @@ function App() {
         return overallSummary;
     };
 
+    const generateRecommendation = (sleepScore) => {
+        if (sleepScore >= 90) {
+            return "Excellent sleep quality! Keep up the good work.";
+        } else if (sleepScore >= 80) {
+            return "Good sleep quality. Try to maintain consistency.";
+        } else if (sleepScore >= 70) {
+            return "Fair sleep quality. Consider improving your sleep habits.";
+        } else {
+            return "Poor sleep quality. Focus on improving your sleep hygiene.";
+        }
+    };
+
+    const handleSampleData = async () => {
+        console.log('handleSampleData Trigger');
+    };
+
     const handleImport = async (event) => {
         try {
             const fileInput = document.createElement('input');
@@ -306,7 +322,7 @@ function App() {
                     <button className="ImportButton" onClick={handleImport}>
                         Import
                     </button>
-                    <button className="SampleDataButton" onClick={handleImport}>
+                    <button className="SampleDataButton" onClick={handleSampleData}>
                         Sample Data
                     </button>
                 </div>
@@ -320,7 +336,7 @@ function App() {
                             <p className="SleepScore">{jsonData.averageSleepScore.toFixed(0)} / 100</p>
                         </div>
                         <div className="RecommendationBox">
-                            <p className="Recommendation">Placeholder Recommendation Text</p>
+                            <p className="Recommendation">{generateRecommendation(jsonData.averageSleepScore)}</p>
                         </div>
                     </div>
 
