@@ -23,7 +23,8 @@
 }
 
 .ImportButton,
-.SampleDataButton {
+.SampleDataButton,
+.ExportButton {
   font-size: 1em;
   margin: 10px;
   padding: 10px 20px;

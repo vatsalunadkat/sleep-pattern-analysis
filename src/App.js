@@ -288,7 +288,6 @@ function App() {
         }
     };
 
-
     const processImportedData = (jsonData) => {
         // Process each object in the array
         const processedData = jsonData.map((item) => {
@@ -327,6 +326,53 @@ function App() {
         setJsonData(finalData);
     };
 
+    const exportToFHIR = () => {
+        if (jsonData) {
+            const fhirData = convertToFIHR(jsonData);
+            const blob = new Blob([JSON.stringify(fhirData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'sleep_analysis_fhir.json');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    };
+
+    const convertToFIHR = (jsonData) => {
+        // Convert jsonData to FHIR Observations
+        const observations = jsonData.processedData.map((item) => {
+            const observation = {
+                resourceType: 'Observation',
+                status: 'final',
+                code: {
+                    coding: [
+                        {
+                            system: 'http://loinc.org',
+                            code: '72114-1',
+                            display: 'Sleep duration in hours'
+                        }
+                    ],
+                    text: 'Sleep duration'
+                },
+                subject: {
+                    reference: 'Patient/example'
+                },
+                effectiveDateTime: item.startTime,
+                valueQuantity: {
+                    value: item.duration / (60 * 60 * 1000),
+                    unit: 'hours',
+                    system: 'http://unitsofmeasure.org',
+                    code: 'h'
+                }
+            };
+            return observation;
+        });
+
+        return { resourceType: 'Bundle', type: 'collection', entry: observations };
+    };
+
     return (
         <div className="App">
             <header className="App-header">
@@ -338,6 +384,11 @@ function App() {
                     <button className="SampleDataButton" onClick={handleSampleData}>
                         Sample Data
                     </button>
+                    {jsonData && (
+                        <button className="ExportButton" onClick={exportToFHIR}>
+                            Export
+                        </button>
+                    )}
                 </div>
             </header>
 
@@ -360,12 +411,13 @@ function App() {
                                 <div className="GraphContainer">
                                     <ResponsiveContainer width="100%" height={300}>
                                         <LineChart data={jsonData.averageValuesPerDay}>
-                                            <XAxis dataKey="date" />
-                                            <YAxis domain={[75, 100]} />
-                                            <CartesianGrid strokeDasharray="3 3" />
-                                            <Tooltip />
-                                            <Legend />
-                                            <Line type="monotone" dataKey="sleepScorePerDay" stroke="#8884d8" activeDot={{ r: 8 }} />
+                                            <XAxis dataKey="date"/>
+                                            <YAxis domain={[75, 100]}/>
+                                            <CartesianGrid strokeDasharray="3 3"/>
+                                            <Tooltip/>
+                                            <Legend/>
+                                            <Line type="monotone" dataKey="sleepScorePerDay" stroke="#8884d8"
+                                                  activeDot={{r: 8}}/>
                                         </LineChart>
                                     </ResponsiveContainer>
                                 </div>
@@ -379,13 +431,13 @@ function App() {
                                 <div className="GraphContainer">
                                     <ResponsiveContainer width="100%" height={300}>
                                         <BarChart data={jsonData.averageValuesPerDay}>
-                                            <XAxis dataKey="date" />
-                                            <YAxis />
-                                            <CartesianGrid strokeDasharray="3 3" />
-                                            <Tooltip />
-                                            <Legend />
-                                            <Bar dataKey="hoursSlept" fill="#8884d8" />
-                                            <Bar dataKey="sleepDebt" fill="#82ca9d" />
+                                            <XAxis dataKey="date"/>
+                                            <YAxis/>
+                                            <CartesianGrid strokeDasharray="3 3"/>
+                                            <Tooltip/>
+                                            <Legend/>
+                                            <Bar dataKey="hoursSlept" fill="#8884d8"/>
+                                            <Bar dataKey="sleepDebt" fill="#82ca9d"/>
                                         </BarChart>
                                     </ResponsiveContainer>
                                 </div>
@@ -401,12 +453,12 @@ function App() {
                                 <div className="GraphContainer">
                                     <ResponsiveContainer width="100%" height={300}>
                                         <AreaChart data={jsonData.averageValuesPerDay}>
-                                            <XAxis dataKey="date" />
+                                            <XAxis dataKey="date"/>
                                             <YAxis domain={[75, 100]}/>
-                                            <CartesianGrid strokeDasharray="3 3" />
-                                            <Tooltip />
-                                            <Legend />
-                                            <Area type="monotone" dataKey="efficiencyPerDay" fill="#8884d8" />
+                                            <CartesianGrid strokeDasharray="3 3"/>
+                                            <Tooltip/>
+                                            <Legend/>
+                                            <Area type="monotone" dataKey="efficiencyPerDay" fill="#8884d8"/>
                                         </AreaChart>
                                     </ResponsiveContainer>
                                 </div>
@@ -424,9 +476,9 @@ function App() {
                                                 dataKey="value"
                                                 isAnimationActive={false}
                                                 data={[
-                                                    { name: 'Deep Stage', value: jsonData.averageDeepStagePercent },
-                                                    { name: 'REM Stage', value: jsonData.averageRemStagePercent },
-                                                    { name: 'Light Stage', value: jsonData.averageLightStagePercent },
+                                                    {name: 'Deep Stage', value: jsonData.averageDeepStagePercent},
+                                                    {name: 'REM Stage', value: jsonData.averageRemStagePercent},
+                                                    {name: 'Light Stage', value: jsonData.averageLightStagePercent},
                                                 ]}
                                                 cx="50%"
                                                 cy="50%"
@@ -435,15 +487,27 @@ function App() {
                                                 label
                                             >
                                                 {[
-                                                    { name: 'Deep Stage', value: jsonData.averageDeepStagePercent, fill: '#8884d8' },
-                                                    { name: 'REM Stage', value: jsonData.averageRemStagePercent, fill: '#82ca9d' },
-                                                    { name: 'Light Stage', value: jsonData.averageLightStagePercent, fill: '#ffc658' },
+                                                    {
+                                                        name: 'Deep Stage',
+                                                        value: jsonData.averageDeepStagePercent,
+                                                        fill: '#8884d8'
+                                                    },
+                                                    {
+                                                        name: 'REM Stage',
+                                                        value: jsonData.averageRemStagePercent,
+                                                        fill: '#82ca9d'
+                                                    },
+                                                    {
+                                                        name: 'Light Stage',
+                                                        value: jsonData.averageLightStagePercent,
+                                                        fill: '#ffc658'
+                                                    },
                                                 ].map((entry, index) => (
-                                                    <Cell key={`cell-${index}`} fill={entry.fill} />
+                                                    <Cell key={`cell-${index}`} fill={entry.fill}/>
                                                 ))}
                                             </Pie>
-                                            <Tooltip />
-                                            <Legend />
+                                            <Tooltip/>
+                                            <Legend/>
                                         </PieChart>
                                     </ResponsiveContainer>
                                 </div>
