@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, AreaChart, Area, ComposedChart, PieChart, Pie, Cell, Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
-import sampleData from './sleep-sample-data-1.json';
+import sampleData from './sleep-sample-data.json';
 
 function App() {
     const [jsonData, setJsonData] = useState(null);
@@ -152,10 +152,9 @@ function App() {
             totalSleepScore += item.sleepScore;
             totalEfficiency += item.efficiency;
 
-            // Calculate hours slept and sleep debt
+            // Calculate hours slept
             const hoursSlept = item.duration / (60 * 60 * 1000); // Convert milliseconds to hours
             totalHoursSlept += hoursSlept;
-            totalSleepDebt += 8 - hoursSlept; // Assuming ideal sleep duration is 8 hours
 
             // Sleep stage percentage calculation
             const totalMinutes = item.minutesAsleep + item.minutesAwake;
@@ -171,8 +170,7 @@ function App() {
                 aggregatedDataPerDate[date] = {
                     sleepScorePerDay: item.sleepScore,
                     efficiencyPerDay: item.efficiency,
-                    hoursSlept,
-                    sleepDebt: (8 - hoursSlept),
+                    hoursSlept: hoursSlept,
                     deepStagePercent,
                     remStagePercent,
                     lightStagePercent,
@@ -182,7 +180,6 @@ function App() {
                 aggregatedDataPerDate[date].sleepScorePerDay += item.sleepScore;
                 aggregatedDataPerDate[date].efficiencyPerDay += item.efficiency;
                 aggregatedDataPerDate[date].hoursSlept += hoursSlept;
-                aggregatedDataPerDate[date].sleepDebt += (8 - hoursSlept);
                 aggregatedDataPerDate[date].deepStagePercent += parseFloat(deepStagePercent);
                 aggregatedDataPerDate[date].remStagePercent += parseFloat(remStagePercent);
                 aggregatedDataPerDate[date].lightStagePercent += parseFloat(lightStagePercent);
@@ -196,17 +193,19 @@ function App() {
 
         // Calculate average values per day and aggregate them
         for (const date in aggregatedDataPerDate) {
+            let dayHoursSlept = aggregatedDataPerDate[date].hoursSlept;
             const averageValues = {
                 date,
                 sleepScorePerDay: aggregatedDataPerDate[date].sleepScorePerDay / aggregatedDataPerDate[date].itemCount,
                 efficiencyPerDay: aggregatedDataPerDate[date].efficiencyPerDay / aggregatedDataPerDate[date].itemCount,
-                hoursSlept: aggregatedDataPerDate[date].hoursSlept,
-                sleepDebt: aggregatedDataPerDate[date].sleepDebt,
+                hoursSlept: dayHoursSlept,
+                sleepDebt: 8 - aggregatedDataPerDate[date].hoursSlept,
                 deepStagePercent: aggregatedDataPerDate[date].deepStagePercent / aggregatedDataPerDate[date].itemCount,
                 remStagePercent: aggregatedDataPerDate[date].remStagePercent / aggregatedDataPerDate[date].itemCount,
                 lightStagePercent: aggregatedDataPerDate[date].lightStagePercent / aggregatedDataPerDate[date].itemCount
             };
             averageValuesPerDay.push(averageValues);
+            totalSleepDebt += 8 - dayHoursSlept;
         }
 
         const overallAverageHoursSlept = totalHoursSlept / jsonData.length;
@@ -228,7 +227,6 @@ function App() {
             averageValuesPerDay,
             processedData: jsonData
         };
-
         return overallSummary;
     };
 
@@ -369,7 +367,6 @@ function App() {
             };
             return observation;
         });
-
         return { resourceType: 'Bundle', type: 'collection', entry: observations };
     };
 
@@ -412,7 +409,7 @@ function App() {
                                     <ResponsiveContainer width="100%" height={300}>
                                         <LineChart data={jsonData.averageValuesPerDay}>
                                             <XAxis dataKey="date"/>
-                                            <YAxis domain={[75, 100]}/>
+                                            <YAxis domain={[70, 100]}/>
                                             <CartesianGrid strokeDasharray="3 3"/>
                                             <Tooltip/>
                                             <Legend/>
