@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, AreaChart, Area, ComposedChart, PieChart, Pie, Cell, Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
+import sampleData from './sleep-sample-data-1.json';
 
 function App() {
     const [jsonData, setJsonData] = useState(null);
@@ -244,74 +245,86 @@ function App() {
     };
 
     const handleSampleData = async () => {
-        console.log('handleSampleData Trigger');
+        try {
+            await handleImport(sampleData);
+        } catch (error) {
+            console.error('Error fetching sample data:', error);
+        }
     };
 
     const handleImport = async (event) => {
         try {
-            const fileInput = document.createElement('input');
-            fileInput.type = 'file';
-            fileInput.accept = '.json';
-
-            fileInput.addEventListener('change', async (e) => {
-                const file = e.target.files[0];
-                if (file) {
-                    const fileReader = new FileReader();
-                    fileReader.onload = (e) => {
-                        const data = e.target.result;
-                        try {
-                            let parsedData = JSON.parse(data);
-
-                            // Process each object in the array
-                            parsedData = parsedData.map((item) => {
+            if (event) {
+                if (Array.isArray(event)) {
+                    processImportedData(event);
+                } else {
+                    const fileInput = document.createElement('input');
+                    fileInput.type = 'file';
+                    fileInput.accept = '.json';
+                    fileInput.addEventListener('change', async (e) => {
+                        const file = e.target.files[0];
+                        if (file) {
+                            const fileReader = new FileReader();
+                            fileReader.onload = (e) => {
+                                const data = e.target.result;
                                 try {
-                                    const levelsSummary = calculateLevelsSummary(item);
-                                    const { minutesAsleep, minutesAwake } = calculateSleepMetrics(item, levelsSummary);
-                                    const duration = calculateDuration(item);
-                                    const timeInBed = calculateTimeInBed({ ...item, duration });
-                                    const efficiency = calculateEfficiency({ ...item, timeInBed }, levelsSummary);
-                                    const sleepScore = calculateSleepScore(
-                                        item,
-                                        duration,
-                                        timeInBed,
-                                        levelsSummary,
-                                        efficiency,
-                                        minutesAsleep,
-                                        minutesAwake
-                                    );
-
-                                    return {
-                                        ...item,
-                                        levels: { summary: levelsSummary, data: item.levels.data },
-                                        duration,
-                                        timeInBed,
-                                        efficiency,
-                                        minutesAsleep,
-                                        minutesAwake,
-                                        sleepScore
-                                    };
+                                    let parsedData = JSON.parse(data);
+                                    processImportedData(parsedData);
                                 } catch (error) {
-                                    console.error('Error processing sleep data:', error);
-                                    return item;
+                                    console.error('Error parsing JSON file:', error);
                                 }
-                            });
-
-                            // Prepend the overall summary to the JSON data array
-                            const finalData = calculateOverallSummary(parsedData);
-
-                            setJsonData(finalData);
-                        } catch (error) {
-                            console.error('Error parsing JSON file:', error);
+                            };
+                            fileReader.readAsText(file);
                         }
-                    };
-                    fileReader.readAsText(file);
-                }
-            });
+                    });
 
-            fileInput.click();
+                    fileInput.click();
+                }
+            } else {
+                console.error('No event provided for import');
+            }
         } catch (error) {
-            console.error('Error importing JSON file:', error);
+            console.error('Error handling import:', error);
         }
+    };
+
+
+    const processImportedData = (jsonData) => {
+        // Process each object in the array
+        const processedData = jsonData.map((item) => {
+            try {
+                const levelsSummary = calculateLevelsSummary(item);
+                const { minutesAsleep, minutesAwake } = calculateSleepMetrics(item, levelsSummary);
+                const duration = calculateDuration(item);
+                const timeInBed = calculateTimeInBed({ ...item, duration });
+                const efficiency = calculateEfficiency({ ...item, timeInBed }, levelsSummary);
+                const sleepScore = calculateSleepScore(
+                    item,
+                    duration,
+                    timeInBed,
+                    levelsSummary,
+                    efficiency,
+                    minutesAsleep,
+                    minutesAwake
+                );
+
+                return {
+                    ...item,
+                    levels: { summary: levelsSummary, data: item.levels.data },
+                    duration,
+                    timeInBed,
+                    efficiency,
+                    minutesAsleep,
+                    minutesAwake,
+                    sleepScore
+                };
+            } catch (error) {
+                console.error('Error processing sleep data:', error);
+                return item;
+            }
+        });
+        const finalData = calculateOverallSummary(processedData);
+        setJsonData(finalData);
     };
 
     return (
