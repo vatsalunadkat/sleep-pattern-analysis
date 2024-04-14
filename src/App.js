@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, AreaChart, Area, ComposedChart, PieChart, Pie, Cell, Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, AreaChart,
+    Area, PieChart, Pie, Cell, ReferenceLine} from 'recharts';
 import sampleData from './sleep-sample-data.json';
 
 function App() {
@@ -410,16 +411,19 @@ function App() {
                                     <ResponsiveContainer width="100%" height={300}>
                                         <LineChart data={jsonData.averageValuesPerDay}>
                                             <XAxis dataKey="date"/>
-                                            <YAxis domain={[70, 100]}/>
+                                            <YAxis domain={[70, 110]}/>
                                             <CartesianGrid strokeDasharray="3 3"/>
                                             <Tooltip/>
                                             <Legend/>
-                                            <Line type="monotone" dataKey="sleepScorePerDay" stroke="#8884d8"
-                                                  activeDot={{r: 8}}/>
+                                            <Line type="monotone" dataKey="sleepScorePerDay" stroke="#8884d8" activeDot={{r: 8}}/>
+                                            {/*<Line type="monotone" dataKey="efficiencyPerDay" stroke="#8884d8" strokeDasharray="5 10" />*/}
+                                            <ReferenceLine y={100} label="Max" stroke="red" />
                                         </LineChart>
                                     </ResponsiveContainer>
                                 </div>
-                                <p className="GraphDescription">Graph description text goes here.</p>
+                                <p className="GraphDescription">This chart displays the sleep efficiency percentage per
+                                    day over the analyzed period. Sleep efficiency measures the percentage of time
+                                    spent asleep while in bed. Higher values indicate better sleep efficiency.</p>
                             </div>
                         </div>
 
@@ -428,18 +432,23 @@ function App() {
                                 <h3 className="GraphTitle">Hours Slept and Sleep Debt per Day</h3>
                                 <div className="GraphContainer">
                                     <ResponsiveContainer width="100%" height={300}>
-                                        <BarChart data={jsonData.averageValuesPerDay}>
+                                        <AreaChart data={jsonData.averageValuesPerDay}>
                                             <XAxis dataKey="date"/>
                                             <YAxis/>
                                             <CartesianGrid strokeDasharray="3 3"/>
                                             <Tooltip/>
                                             <Legend/>
-                                            <Bar dataKey="hoursSlept" fill="#8884d8"/>
-                                            <Bar dataKey="sleepDebt" fill="#82ca9d"/>
-                                        </BarChart>
+                                            <Area type="monotone" dataKey="hoursSlept" fill="#8884d8"/>
+                                            <Area type="monotone" dataKey="sleepDebt" fill="#82ca9d"/>
+                                        </AreaChart>
                                     </ResponsiveContainer>
                                 </div>
-                                <p className="GraphDescription">Graph description text goes here.</p>
+                                <p className="GraphDescription">
+                                    This chart shows the hours slept and sleep debt per day over the analyzed period.
+                                    The purple area represents the hours slept, while the green area represents the sleep
+                                    debt, which is the difference between the ideal (8 hours of) sleep and the actual
+                                    hours slept.
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -450,23 +459,27 @@ function App() {
                                 <h3 className="GraphTitle">Sleep Efficiency per Day</h3>
                                 <div className="GraphContainer">
                                     <ResponsiveContainer width="100%" height={300}>
-                                        <AreaChart data={jsonData.averageValuesPerDay}>
+                                        <BarChart data={jsonData.averageValuesPerDay}>
                                             <XAxis dataKey="date"/>
-                                            <YAxis domain={[75, 100]}/>
+                                            <YAxis domain={[80, 100]}/>
                                             <CartesianGrid strokeDasharray="3 3"/>
                                             <Tooltip/>
                                             <Legend/>
-                                            <Area type="monotone" dataKey="efficiencyPerDay" fill="#8884d8"/>
-                                        </AreaChart>
+                                            <Bar dataKey="efficiencyPerDay" fill="#8884d8"/>
+                                        </BarChart>
                                     </ResponsiveContainer>
                                 </div>
-                                <p className="GraphDescription">Graph description text goes here.</p>
+                                <p className="GraphDescription">
+                                    This chart displays the sleep efficiency percentage per day over the analyzed
+                                    period. Sleep efficiency measures the time spent asleep while in bed.
+                                    Higher values indicate better sleep efficiency.
+                                </p>
                             </div>
                         </div>
 
                         <div className="GraphColumn">
                             <div className="GraphBox">
-                                <h3 className="GraphTitle">Time Spent in Each Sleep Stage/Phase</h3>
+                                <h3 className="GraphTitle">Average Time Spent in Each Sleep Stage/Phase</h3>
                                 <div className="GraphContainer">
                                     <ResponsiveContainer width="100%" height={300}>
                                         <PieChart>
@@ -493,12 +506,12 @@ function App() {
                                                     {
                                                         name: 'REM Stage',
                                                         value: jsonData.averageRemStagePercent,
-                                                        fill: '#82ca9d'
+                                                        fill: '#609ef7'
                                                     },
                                                     {
                                                         name: 'Light Stage',
                                                         value: jsonData.averageLightStagePercent,
-                                                        fill: '#ffc658'
+                                                        fill: '#ff87a2'
                                                     },
                                                 ].map((entry, index) => (
                                                     <Cell key={`cell-${index}`} fill={entry.fill}/>
@@ -509,7 +522,10 @@ function App() {
                                         </PieChart>
                                     </ResponsiveContainer>
                                 </div>
-                                <p className="GraphDescription">Graph description text goes here.</p>
+                                <p className="GraphDescription">This pie chart illustrates the distribution of time
+                                    spent in each sleep stage/phase averaged over the analyzed period. It visualizes
+                                    the percentage of time spent in the deep stage, REM stage, and light stage during
+                                    sleep.</p>
                             </div>
                         </div>
                     </div>
