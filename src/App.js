@@ -144,6 +144,7 @@ function App() {
         let totalDeepStagePercent = 0;
         let totalRemStagePercent = 0;
         let totalLightStagePercent = 0;
+        let totalAwakeStagePercent = 0;
         const averageValuesPerDay = [];
         const aggregatedDataPerDate = {};
 
@@ -163,9 +164,11 @@ function App() {
             const deepStagePercent = item.levels.summary.deep ? ((item.levels.summary.deep.minutes / totalMinutes) * 100) : 0;
             const remStagePercent = item.levels.summary.rem ? ((item.levels.summary.rem.minutes / totalMinutes) * 100) : 0;
             const lightStagePercent = item.levels.summary.light ? ((item.levels.summary.light.minutes / totalMinutes) * 100) : 0;
+            const awakeStagePercent = 100 - (deepStagePercent + remStagePercent + lightStagePercent);
             totalDeepStagePercent += parseFloat(deepStagePercent);
             totalRemStagePercent += parseFloat(remStagePercent);
             totalLightStagePercent += parseFloat(lightStagePercent);
+            totalAwakeStagePercent += parseFloat(awakeStagePercent);
 
             // Aggregate data per date
             if (!aggregatedDataPerDate[date]) {
@@ -176,6 +179,7 @@ function App() {
                     deepStagePercent,
                     remStagePercent,
                     lightStagePercent,
+                    awakeStagePercent,
                     itemCount: 1
                 };
             } else {
@@ -185,6 +189,7 @@ function App() {
                 aggregatedDataPerDate[date].deepStagePercent += parseFloat(deepStagePercent);
                 aggregatedDataPerDate[date].remStagePercent += parseFloat(remStagePercent);
                 aggregatedDataPerDate[date].lightStagePercent += parseFloat(lightStagePercent);
+                aggregatedDataPerDate[date].awakeStagePercent += parseFloat(awakeStagePercent);
                 aggregatedDataPerDate[date].itemCount++;
             }
         });
@@ -204,7 +209,8 @@ function App() {
                 sleepDebt: (8 - aggregatedDataPerDate[date].hoursSlept).toFixed(2),
                 deepStagePercent: (aggregatedDataPerDate[date].deepStagePercent / aggregatedDataPerDate[date].itemCount),
                 remStagePercent: (aggregatedDataPerDate[date].remStagePercent / aggregatedDataPerDate[date].itemCount),
-                lightStagePercent: (aggregatedDataPerDate[date].lightStagePercent / aggregatedDataPerDate[date].itemCount)
+                lightStagePercent: (aggregatedDataPerDate[date].lightStagePercent / aggregatedDataPerDate[date].itemCount),
+                awakeStagePercent: (aggregatedDataPerDate[date].awakeStagePercent / aggregatedDataPerDate[date].itemCount)
             };
             averageValuesPerDay.push(averageValues);
             totalSleepDebt += 8 - dayHoursSlept;
@@ -214,9 +220,10 @@ function App() {
 
         const overallAverageHoursSlept = totalHoursSlept / jsonData.length;
         const overallAverageSleepDebt = totalSleepDebt / jsonData.length;
-        const overallAverageDeepStagePercent = (totalDeepStagePercent / jsonData.length).toFixed(2);
-        const overallAverageRemStagePercent = (totalRemStagePercent / jsonData.length).toFixed(2);
-        const overallAverageLightStagePercent = (totalLightStagePercent / jsonData.length).toFixed(2);
+        const overallAverageDeepStagePercent = totalDeepStagePercent / jsonData.length;
+        const overallAverageRemStagePercent = totalRemStagePercent / jsonData.length;
+        const overallAverageLightStagePercent = totalLightStagePercent / jsonData.length;
+        const overallAverageAwakeStagePercent = totalAwakeStagePercent / jsonData.length;
 
         const overallSummary = {
             averageSleepScore: parseFloat(overallAverageSleepScore),
@@ -228,6 +235,7 @@ function App() {
             averageDeepStagePercent: parseFloat(overallAverageDeepStagePercent),
             averageRemStagePercent: parseFloat(overallAverageRemStagePercent),
             averageLightStagePercent: parseFloat(overallAverageLightStagePercent),
+            averageAwakeStagePercent: parseFloat(overallAverageAwakeStagePercent),
             averageValuesPerDay,
             processedData: jsonData
         };
@@ -491,6 +499,7 @@ function App() {
                                                     {name: 'Deep Stage %', value: jsonData.averageDeepStagePercent},
                                                     {name: 'REM Stage %', value: jsonData.averageRemStagePercent},
                                                     {name: 'Light Stage %', value: jsonData.averageLightStagePercent},
+                                                    {name: 'Awake Stage %', value: jsonData.averageAwakeStagePercent},
                                                 ]}
                                                 cx="50%"
                                                 cy="50%"
@@ -512,7 +521,12 @@ function App() {
                                                     {
                                                         name: 'Light Stage',
                                                         value: jsonData.averageLightStagePercent,
-                                                        fill: '#ff87a2'
+                                                        fill: '#635c50'
+                                                    },
+                                                    {
+                                                        name: 'Deep Stage',
+                                                        value: jsonData.averageAwakeStagePercent,
+                                                        fill: '#ff7594'
                                                     },
                                                 ].map((entry, index) => (
                                                     <Cell key={`cell-${index}`} fill={entry.fill}/>
