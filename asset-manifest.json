@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/pages/vunadkat6/sleep-pattern-analysis/static/css/main.3a503475.css",
-    "main.js": "/pages/vunadkat6/sleep-pattern-analysis/static/js/main.eda344a7.js",
+    "main.js": "/pages/vunadkat6/sleep-pattern-analysis/static/js/main.0fbc5de3.js",
     "static/js/453.f80e0dc6.chunk.js": "/pages/vunadkat6/sleep-pattern-analysis/static/js/453.f80e0dc6.chunk.js",
     "index.html": "/pages/vunadkat6/sleep-pattern-analysis/index.html",
     "main.3a503475.css.map": "/pages/vunadkat6/sleep-pattern-analysis/static/css/main.3a503475.css.map",
-    "main.eda344a7.js.map": "/pages/vunadkat6/sleep-pattern-analysis/static/js/main.eda344a7.js.map",
+    "main.0fbc5de3.js.map": "/pages/vunadkat6/sleep-pattern-analysis/static/js/main.0fbc5de3.js.map",
     "453.f80e0dc6.chunk.js.map": "/pages/vunadkat6/sleep-pattern-analysis/static/js/453.f80e0dc6.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.3a503475.css",
-    "static/js/main.eda344a7.js"
+    "static/js/main.0fbc5de3.js"
   ]
 }
