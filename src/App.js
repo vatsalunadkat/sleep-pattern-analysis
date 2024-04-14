@@ -196,10 +196,10 @@ function App() {
             let dayHoursSlept = aggregatedDataPerDate[date].hoursSlept;
             const averageValues = {
                 date,
-                sleepScorePerDay: aggregatedDataPerDate[date].sleepScorePerDay / aggregatedDataPerDate[date].itemCount,
-                efficiencyPerDay: aggregatedDataPerDate[date].efficiencyPerDay / aggregatedDataPerDate[date].itemCount,
-                hoursSlept: dayHoursSlept,
-                sleepDebt: 8 - aggregatedDataPerDate[date].hoursSlept,
+                sleepScorePerDay: (aggregatedDataPerDate[date].sleepScorePerDay / aggregatedDataPerDate[date].itemCount).toFixed(2),
+                efficiencyPerDay: (aggregatedDataPerDate[date].efficiencyPerDay / aggregatedDataPerDate[date].itemCount).toFixed(2),
+                hoursSlept: dayHoursSlept.toFixed(2),
+                sleepDebt: (8 - aggregatedDataPerDate[date].hoursSlept).toFixed(2),
                 deepStagePercent: aggregatedDataPerDate[date].deepStagePercent / aggregatedDataPerDate[date].itemCount,
                 remStagePercent: aggregatedDataPerDate[date].remStagePercent / aggregatedDataPerDate[date].itemCount,
                 lightStagePercent: aggregatedDataPerDate[date].lightStagePercent / aggregatedDataPerDate[date].itemCount
@@ -207,6 +207,8 @@ function App() {
             averageValuesPerDay.push(averageValues);
             totalSleepDebt += 8 - dayHoursSlept;
         }
+
+        averageValuesPerDay.sort((a, b) => new Date(a.date) - new Date(b.date));
 
         const overallAverageHoursSlept = totalHoursSlept / jsonData.length;
         const overallAverageSleepDebt = totalSleepDebt / jsonData.length;
@@ -275,7 +277,6 @@ function App() {
                             fileReader.readAsText(file);
                         }
                     });
-
                     fileInput.click();
                 }
             } else {
