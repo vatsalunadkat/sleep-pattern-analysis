@@ -35,8 +35,17 @@
   cursor: pointer;
 }
 
+.ToggleJsonButton {
+  cursor: pointer;
+  background-color: #CCD3CA;
+}
+
 .ImportedData {
   margin-top: 20px;
+}
+
+.ProcessedData {
+  text-align: left;
 }
 
 .Banner {

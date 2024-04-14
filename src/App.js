@@ -6,6 +6,7 @@ import sampleData from './sleep-sample-data.json';
 
 function App() {
     const [jsonData, setJsonData] = useState(null);
+    const [showJsonData, setShowJsonData] = useState(false);
 
     const calculateLevelsSummary = (sleepData) => {
         // Calculate levels summary from data
@@ -201,9 +202,9 @@ function App() {
                 efficiencyPerDay: (aggregatedDataPerDate[date].efficiencyPerDay / aggregatedDataPerDate[date].itemCount).toFixed(2),
                 hoursSlept: dayHoursSlept.toFixed(2),
                 sleepDebt: (8 - aggregatedDataPerDate[date].hoursSlept).toFixed(2),
-                deepStagePercent: aggregatedDataPerDate[date].deepStagePercent / aggregatedDataPerDate[date].itemCount,
-                remStagePercent: aggregatedDataPerDate[date].remStagePercent / aggregatedDataPerDate[date].itemCount,
-                lightStagePercent: aggregatedDataPerDate[date].lightStagePercent / aggregatedDataPerDate[date].itemCount
+                deepStagePercent: (aggregatedDataPerDate[date].deepStagePercent / aggregatedDataPerDate[date].itemCount),
+                remStagePercent: (aggregatedDataPerDate[date].remStagePercent / aggregatedDataPerDate[date].itemCount),
+                lightStagePercent: (aggregatedDataPerDate[date].lightStagePercent / aggregatedDataPerDate[date].itemCount)
             };
             averageValuesPerDay.push(averageValues);
             totalSleepDebt += 8 - dayHoursSlept;
@@ -213,9 +214,9 @@ function App() {
 
         const overallAverageHoursSlept = totalHoursSlept / jsonData.length;
         const overallAverageSleepDebt = totalSleepDebt / jsonData.length;
-        const overallAverageDeepStagePercent = totalDeepStagePercent / jsonData.length;
-        const overallAverageRemStagePercent = totalRemStagePercent / jsonData.length;
-        const overallAverageLightStagePercent = totalLightStagePercent / jsonData.length;
+        const overallAverageDeepStagePercent = (totalDeepStagePercent / jsonData.length).toFixed(2);
+        const overallAverageRemStagePercent = (totalRemStagePercent / jsonData.length).toFixed(2);
+        const overallAverageLightStagePercent = (totalLightStagePercent / jsonData.length).toFixed(2);
 
         const overallSummary = {
             averageSleepScore: parseFloat(overallAverageSleepScore),
@@ -487,9 +488,9 @@ function App() {
                                                 dataKey="value"
                                                 isAnimationActive={false}
                                                 data={[
-                                                    {name: 'Deep Stage', value: jsonData.averageDeepStagePercent},
-                                                    {name: 'REM Stage', value: jsonData.averageRemStagePercent},
-                                                    {name: 'Light Stage', value: jsonData.averageLightStagePercent},
+                                                    {name: 'Deep Stage %', value: jsonData.averageDeepStagePercent},
+                                                    {name: 'REM Stage %', value: jsonData.averageRemStagePercent},
+                                                    {name: 'Light Stage %', value: jsonData.averageLightStagePercent},
                                                 ]}
                                                 cx="50%"
                                                 cy="50%"
@@ -529,6 +530,23 @@ function App() {
                             </div>
                         </div>
                     </div>
+                </div>
+            )}
+
+            {jsonData && (
+                <div>
+                    <div className="ToggleJsonButton">
+                        <button onClick={() => setShowJsonData(!showJsonData)}>
+                            {showJsonData ? 'Hide Processed Data' : 'Show Processed Data'}
+                        </button>
+                    </div>
+
+                    {showJsonData && (
+                        <div className="ProcessedData">
+                            <h3>Processed JSON Data</h3>
+                            <pre>{JSON.stringify(jsonData, null, 2)}</pre>
+                        </div>
+                    )}
                 </div>
             )}
         </div>
