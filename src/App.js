@@ -45,7 +45,7 @@ function App() {
         const errorMargin = 0.05; // 5% error margin
         if (Math.abs(duration1 - duration2) / duration1 > errorMargin) {
             const errorMessage = `Inconsistent JSON for logId ${sleepData.logId}: Duration calculated using different methods.`;
-            console.warn(errorMessage);
+            console.info(errorMessage);
         }
 
         if (duration2 > duration1) {
@@ -95,8 +95,8 @@ function App() {
         // Weights for each factor
         const weightDuration = 0.2;
         const weightREM = 0.3;
-        const weightDeep = 0.3;
-        const weightLight = 0.2;
+        const weightDeep = 0.4;
+        const weightLight = 0.1;
 
         // Calculate factors
         const durationFactor = calculateDurationFactor(duration);
@@ -161,9 +161,9 @@ function App() {
 
             // Sleep stage percentage calculation
             const totalMinutes = item.minutesAsleep + item.minutesAwake;
-            const deepStagePercent = item.levels.summary.deep ? ((item.levels.summary.deep.minutes / totalMinutes) * 100) : 0;
-            const remStagePercent = item.levels.summary.rem ? ((item.levels.summary.rem.minutes / totalMinutes) * 100) : 0;
-            const lightStagePercent = item.levels.summary.light ? ((item.levels.summary.light.minutes / totalMinutes) * 100) : 0;
+            const deepStagePercent = item.levels.summary.deep && totalMinutes ? ((item.levels.summary.deep.minutes / totalMinutes) * 100) : 0;
+            const remStagePercent = item.levels.summary.rem && totalMinutes ? ((item.levels.summary.rem.minutes / totalMinutes) * 100) : 0;
+            const lightStagePercent = item.levels.summary.light && totalMinutes ? ((item.levels.summary.light.minutes / totalMinutes) * 100) : 0;
             const awakeStagePercent = 100 - (deepStagePercent + remStagePercent + lightStagePercent);
             totalDeepStagePercent += parseFloat(deepStagePercent);
             totalRemStagePercent += parseFloat(remStagePercent);
