@@ -152,8 +152,8 @@ function App() {
             const date = item.dateOfSleep.slice(0, 10); // Extract date from dateOfSleep
 
             // Calculate sleep score and efficiency for each item
-            totalSleepScore += item.sleepScore;
-            totalEfficiency += item.efficiency;
+            totalSleepScore += parseFloat(item.sleepScore);
+            totalEfficiency += parseFloat(item.efficiency);
 
             // Calculate hours slept
             const hoursSlept = item.duration / (60 * 60 * 1000); // Convert milliseconds to hours
