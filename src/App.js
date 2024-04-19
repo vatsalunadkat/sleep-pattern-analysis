@@ -288,6 +288,7 @@ function App() {
                                     processImportedData(parsedData);
                                 } catch (error) {
                                     console.error('Error parsing JSON file:', error);
+                                    alert("Invalid JSON file. Please upload a valid JSON file for analysis.")
                                 }
                             };
                             fileReader.readAsText(file);
