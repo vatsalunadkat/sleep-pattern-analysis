@@ -107,9 +107,9 @@ function App() {
         // Calculate weighted sum of factors
         const weightedSum = (weightDuration * durationFactor) + (weightREM * remFactor) + (weightDeep * deepFactor) + (weightLight * lightFactor);
 
-        // Normalize sleep score to range 60 (to not demotivate users) and 95
-        const minScore = 60;
-        const maxScore = 95;
+        // Normalize sleep score to range 20 and 97
+        const minScore = 20;
+        const maxScore = 97;
         const normalizedSleepScore = minScore + (weightedSum * (maxScore - minScore));
 
         // Check if sleep score is below 70 or null or undefined, then fallback to 70
