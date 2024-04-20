@@ -224,6 +224,7 @@ First fetch your own data using the steps mentioned below. Then click on the "Im
 ### Future scope
 - [ ] Google SSO login
 - [ ] Directly importing data using the Fitbit APIs
+- [ ] Compatability with Apple Health and Garmin exports
 
 See the [open issues](https://github.gatech.edu/vunadkat6/sleep-pattern-analysis/issues) for a full list of proposed features (and known issues).
 
