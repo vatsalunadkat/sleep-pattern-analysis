@@ -51,6 +51,7 @@
       <ul>
         <li><a href="#screen-mockups-vs-current-webpage">Screen Mockups vs Current Webpage</a></li>
         <li><a href="#architecture-diagram">Architecture Diagram</a></li>
+        <li><a href="#sleep-data-calculations">Sleep Data Calculations</a></li>
       </ul>
     </li>
     <li><a href="#contact">Contact</a></li>
@@ -88,13 +89,13 @@ The Sleep Pattern Analysis App (SPAA) empowers users by providing them with a de
 ## Usage
 
 ### Checking capabilities
-When you open the webpage simply click on the button "Sample Data".
+When you open the webpage simply click on the button `Sample Data`.
 
 ### Using provided test data
 There are 4 data files located in the folder <a href="https://github.gatech.edu/vunadkat6/sleep-pattern-analysis/tree/main/sample_import_data">sample_import_data</a>. Each file includes about 1-month worth of real sleep data I have expoted from my Fitbit accout.
 
 ### Using your own data
-First fetch your own data using the steps mentioned below. Then click on the "Import" button and upload your .json file to view the analysis.
+First fetch your own data using the steps mentioned below. Then click on the `Import` button and upload your .json file to view the analysis.
 
 <details>
   <summary>How to import your sleep data from FitBit.</summary>
@@ -220,9 +221,11 @@ First fetch your own data using the steps mentioned below. Then click on the "Im
 - [x] Show/Hide processed JSON data button
 
 ### Future scope
-- [ ] Google SSO login
-- [ ] Directly importing data using the Fitbit APIs
-- [ ] Compatability with Apple Health and Garmin exports
+- [ ] Enhanced Exports - More customizations (FHIR compatible) for the export feature.
+- [ ] Enhanced Visualization - Adding more interactive and customizable visualization options.
+- [ ] Google SSO Login - for quick and easy access to import the data.
+- [ ] Enhanced compatibility - Add support to directly import data from the Fitbit APIs, as well as integration and support with Apple Health and Garmin.
+- [ ] Integration with Wearable Devices - Integrating with wearable devices to directly import sleep data, providing real-time insights and personalized recommendations.
 
 See the [open issues](https://github.gatech.edu/vunadkat6/sleep-pattern-analysis/issues) for a full list of proposed features (and known issues).
 
@@ -238,6 +241,38 @@ See the [open issues](https://github.gatech.edu/vunadkat6/sleep-pattern-analysis
 
 ### Architecture Diagram
 <img src="https://github.gatech.edu/vunadkat6/sleep-pattern-analysis/blob/main/documentation/Images/architecture_diagram.png" height="300" />
+
+### Sleep Data Calculations
+1. **Calculate Levels Summary:**
+   - **Formula:** Calculate the count and total minutes for each sleep stage (deep, light, rem, wake) from the `levels` data.
+   - **Function:** `calculateLevelsSummary(sleepData)`
+2. **Calculate Duration:**
+   - **Formula:** Calculate sleep duration using two methods: 
+     - By subtracting `endTime` from `startTime`.
+     - By summing the minutes of each sleep stage.
+   - **Function:** `calculateDuration(sleepData)`
+3. **Calculate Time in Bed:**
+   - **Formula:** If `timeInBed` is not provided, calculate it using sleep duration.
+   - **Function:** `calculateTimeInBed(sleepData)`
+4. **Calculate Efficiency:**
+   - **Formula:** Calculate sleep efficiency as the ratio of total sleep time to time in bed.
+   - **Function:** `calculateEfficiency(sleepData, levelsSummary)`
+5. **Calculate Sleep Metrics:**
+   - **Formula:** If `minutesAsleep` and `minutesAwake` are not provided, calculate them using the sum of minutes for each sleep stage.
+   - **Function:** `calculateSleepMetrics(sleepData, levelsSummary)`
+6. **Calculate Sleep Score:**
+   - **Formula:** Calculate sleep score based on duration, sleep stages (deep, light, rem), and efficiency.
+   - **Function:** `calculateSleepScore(sleepData, duration, timeInBed, levelsSummary, efficiency, minutesAsleep, minutesAwake)`
+7. **Calculate Duration Factor:**
+   - **Formula:** Normalize sleep duration between 7 to 8 hours and calculate a factor based on how close it is to the ideal range.
+   - **Function:** `calculateDurationFactor(duration)`
+8. **Calculate Sleep Phase Factor:**
+   - **Formula:** Calculate a factor based on the percentage of time spent in a specific sleep phase compared to the total sleep time.
+   - **Function:** `calculateSleepPhaseFactor(phaseMinutes, totalMinutes, targetPercentage)`
+9. **Calculate Overall Summary:**
+   - **Formula:** Calculate average sleep score, efficiency, hours slept, sleep debt, and sleep stage percentages per day.
+   - **Function:** `calculateOverallSummary(jsonData)`
+
 
 
 <!-- CONTACT -->
