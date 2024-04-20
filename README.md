@@ -176,17 +176,56 @@ First fetch your own data using the steps mentioned below. Then click on the "Im
 
 <details>
   <summary>Detailed tasks completed in each week</summary>
+  <table>
+    <thead>
+      <tr>
+        <th>Week #</th>
+        <th>Accomplishments for the week</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1-7</td>
+        <td><ul><li>Team Formation and Kickoff</li><li>Project Planning and Design</li></ul></td>
+      </tr>
+      <tr>
+        <td>8-9</td>
+        <td><ul><li>Learning React and JS</li><li>Research about sleep in general</li><li>Setting up project<ul><li>Base React code setup</li><li>GitHub Pages deployment setup</li><li>Resolving issues with deployment</li></ul></li><li>Basic homepage visuals</li><li>Import JSON feature + it’s deployment</li></ul></td>
+      </tr>
+      <tr>
+        <td>10</td>
+        <td><ul><li>Learning React and JS</li><li>Research around sleep stages and calculations possible for the available data.</li><li>Data cleaning and processing<ul><li>Checks for invalid JSONs</li><li>Calculation of fields like duration, timeInBed, efficiency, etc.</li><li>Identifying and calculating the level of sleep (deep, light, etc.) from the main data array.</li></ul></li><li>Documentation of above calculation formulas (50% done)</li><li>GitHub Pages deployment maintenance.</li></ul></td>
+      </tr>
+      <tr>
+        <td>11</td>
+        <td><ul><li>Research for sleep engine (sleep stages + calculations)</li><li>Started work on sleep engine (scoring) calculations.</li><li>Updated formulas for calculating efficiency more accurately.</li><li>Updated formulas for calculating duration (using 2 methods) and added an error check for &gt;5%.</li><li>Updated JSON processing (part of code cleanup)</li><li>Added proper error handling code (part of code cleanup)</li><li>Updated console logs for better debugging (part of code cleanup)</li></ul></td>
+      </tr>
+      <tr>
+        <td>12</td>
+        <td><ul><li>Research for sleep engine (specifically regarding sleep stages)</li><li>Completing work on sleep engine (scoring) calculations.</li><li>Rectifying issues with sleep engine logic. (majority time went here)</li><li>GitHub Pages deployment maintenance.</li><li>Preparation for the next sprint - Learning about data visualizations and exploring its available libraries.</li></ul></td>
+      </tr>
+      <tr>
+        <td>13</td>
+        <td><ul><li>Spent time exploring and learning React graph libraries. Tried a few but some of them did not have the customization I was looking for.</li><li>Finally settled on using the 'recharts' library. Most of the time was spent experimenting with the data and graphs.</li><li>Spent some more time modifying the data processing functions as we needed the data in a particular format to give as input for the graphs.</li><li>Also added the sample data button which is supposed to pick up some sample data to show to the user (currently under progress) (extra feature)</li><li>A lot of visual changes + CSS (like choosing color schemes, graph layout, etc.)</li></ul></td>
+      </tr>
+      <tr>
+        <td>14</td>
+        <td><ul><li>Export as a FHIR importable resource (export button feature).</li><li>Show/Hide processed JSON data button.</li><li>Updating graph visuals (using more complex graphs).</li><li>Fixed/Updated some calculations (avg sleep debt, sleep phase percentage, etc.).</li><li>GitHub Pages deployment maintenance and checks for final deployment.</li><li>Preparation for the next sprint - started work on documentation.</li></ul></td>
+      </tr>
+    </tbody>
+  </table>
 </details>
 
 ### Extra features added
+- [x] Reactive Graphs
 - [x] Sample Data Button
 - [x] Show/Hide processed JSON data button
-
-See the [open issues](https://github.gatech.edu/vunadkat6/sleep-pattern-analysis/issues) for a full list of proposed features (and known issues).
 
 ### Future scope
 - [ ] Google SSO login
 - [ ] Directly importing data using the Fitbit APIs
+
+See the [open issues](https://github.gatech.edu/vunadkat6/sleep-pattern-analysis/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
