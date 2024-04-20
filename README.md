@@ -8,6 +8,8 @@
     An awesome application to analyze your sleep data and export it! (FHIR compatable)
     <br />
     <br />
+    <a href="https://github.gatech.edu/pages/vunadkat6/sleep-pattern-analysis/">Visit App</a>
+    ·
     <a href="https://github.gatech.edu/vunadkat6/sleep-pattern-analysis">View Demo</a>
     ·
     <a href="https://github.gatech.edu/vunadkat6/sleep-pattern-analysis/issues/new">Report Bug</a>
@@ -29,14 +31,28 @@
       </ul>
     </li>
     <li>
-      <a href="#getting-started">Getting Started</a>
+      <a href="#usage">Usage</a>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
+        <li><a href="#checking-capabilities">Checking Capabilities</a></li>
+        <li><a href="#using-provided-test-data">Using provided test data</a></li>
+        <li><a href="#using-your-own-data">Using your own data</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
+    <li>
+      <a href="#roadmap">Roadmap</a>
+      <ul>
+        <li><a href="#project-timeline">Project Timeline</a></li>
+        <li><a href="#extra-features-added">Extra features added</a></li>
+        <li><a href="#future-scope">Future scope</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#project-artifacts">Project Artifacts</a>
+      <ul>
+        <li><a href="#screen-mockups-vs-current-webpage">Screen Mockups vs Current Webpage</a></li>
+        <li><a href="#architecture-diagram">Architecture Diagram</a></li>
+      </ul>
+    </li>
     <li><a href="#contact">Contact</a></li>
   </ol>
 </details>
@@ -45,18 +61,15 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+<div align="center">
+  <img src="https://github.gatech.edu/vunadkat6/sleep-pattern-analysis/blob/main/documentation/Images/vunadkat6-sleep-pattern-analysis.png" height="400" />
+</div>
 
 Sleep is one of the fundamental needs of the human body. It directly affects our physical and mental health. It’s not only important to have the required amount of hours of sleep but it’s also important to have quality sleep. While some people thrive on having a long 8-hour sleep session, others function better when taking naps during the day and a shorter 6-hour sleep session at night. The sleep needs of each individual differ according to their body. It is only by tracking and analyzing the sleep data, we can come to know if these needs are fulfilled properly. The main aim of the Sleep Pattern Analysis App (SPAA) is to make the user aware of which sleeping pattern works best for them.
 
 While there are a lot of tools on the market that track and report sleep data (Android Apps, Smartwatches, Fitness Trackers, etc), very few of them provide some analysis of the sleep data. They inform the user on how long they have slept and in which stage (REM, deep, etc), but they don’t provide information regarding the quality of the sleep, recovery, sleep debt, etc. A lot of the apps also gatekeep information behind paywalls.
 
 The Sleep Pattern Analysis App (SPAA) empowers users by providing them with a detailed analysis of their sleeping patterns to help them make informed decisions. It allows users to import their weekly/monthly data in JSON format, clean and visualize the data, and provide the user with a calculated sleep score along with some recommendations (continue sleep pattern, recovery hours, etc.)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 ### Built With
 
@@ -76,12 +89,13 @@ This section should list any major frameworks/libraries used to bootstrap your p
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-## Checking Capabilities
-
+### Checking capabilities
 When you open the webpage simply click on the button "Sample Data".
 
-## Using your own data
+### Using provided test data
+There are 4 data files located in the folder <a href="https://github.gatech.edu/vunadkat6/sleep-pattern-analysis/tree/main/sample_import_data">sample_import_data</a>. Each file includes about 1-month worth of real sleep data I have expoted from my Fitbit accout.
 
+### Using your own data
 First fetch your own data using the steps mentioned below. Then click on the "Import" button and upload your .json file to view the analysis.
 
 <details>
@@ -106,7 +120,6 @@ First fetch your own data using the steps mentioned below. Then click on the "Im
   </ol>
 </details>
 
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
@@ -116,40 +129,88 @@ First fetch your own data using the steps mentioned below. Then click on the "Im
 
 ### Project Timeline
 
-| Sprint # | Week | Start Date | End Date | Tasks |
-| :---         | :---           | :---          | :---         | :---                        |
-| 1            | 1-6            | 22nd Jan      | 1st Feb      | Team Formation and Kickoff  |
-| 2            | 7              | 2nd Feb       | 25th Feb     | Project Planning and Design |
-| 3            | 8              | 26th Feb      | 3rd March    | Project Setup               |
-| 3            | 9              | 26th Feb      | 3rd March    | Import Feature              |
-| 3            | 10             | 11th Mar      | 17th Mar     | Data Cleaning + Processing  |
-| 4            | 11             | 18th Mar      | 24th Mar     | Sleep Score Engine          |
-| 4            | 12             | 25th Mar      | 31st Mar     | Sleep Score Engine          |
-| 5            | 13             | 1st Apr       | 7th Apr      | Data Visualizations         |
-| 5            | 14             | 8th Apr       | 14th Apr     | Export Feature + Cleanup    |
-| 6            | 15             | 15th Apr      | 21st Apr     | Testing + Documentation + Final Submission |
+<table>
+  <thead>
+    <tr>
+      <th>Sprint #</th>
+      <th>Week #</th>
+      <th>Start Date</th>
+      <th>End Date</th>
+      <th>Tasks</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td><td>1-6</td><td>22nd Jan</td><td>1st Feb</td><td>Team Formation and Kickoff</td>
+    </tr>
+    <tr>
+      <td>2</td><td>7</td><td>2nd Feb</td><td>25th Feb</td><td>Project Planning and Design</td>
+    </tr>
+    <tr>
+      <td rowspan=3>3</td><td>8</td><td>26th Feb</td><td>3rd March</td><td>Project Setup</td>
+    </tr>
+    <tr>
+      <td>9</td><td>4th Mar</td><td>10th Mar</td><td>Import Feature</td>
+    </tr>
+    <tr>
+      <td>10</td><td>11th Mar</td><td>17th Mar</td><td>Data Cleaning + Processing</td>
+    </tr>
+    <tr>
+      <td rowspan=2>4</td><td>11</td><td>18th Mar</td><td>24th March</td><td>Sleep Score Engine</td>
+    </tr>
+    <tr>
+      <td>12</td><td>25th Mar</td><td>31th March</td><td>Sleep Score Engine</td>
+    </tr>
+    <tr>
+      <td rowspan=2>5</td><td>13</td><td>1st Apr</td><td>7th Apr</td><td>Data Visualizations</td>
+    </tr>
+    <tr>
+      <td>14</td><td>8th Apr</td><td>14th Apr</td><td>Export Feature + Cleanup</td>
+    </tr>
+    <tr>
+      <td>6</td><td>15</td><td>15th Apr</td><td>21st Apr</td><td>Testing + Documentation + Final Submission</td>
+    </tr>
+  </tbody>
+</table>
 
-### Extra Features Added (bonus)
+
+<details>
+  <summary>Detailed tasks completed in each week</summary>
+</details>
+
+### Extra features added
 - [x] Sample Data Button
 - [x] Show/Hide processed JSON data button
 
 See the [open issues](https://github.gatech.edu/vunadkat6/sleep-pattern-analysis/issues) for a full list of proposed features (and known issues).
 
+### Future scope
+- [ ] Google SSO login
+- [ ] Directly importing data using the Fitbit APIs
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+
+
+<!-- OTHER ARTIFACTS -->
+## Project Artifacts
+
+### Screen Mockups vs Current Webpage
+<img src="https://github.gatech.edu/vunadkat6/sleep-pattern-analysis/blob/main/documentation/Images/screen_mockups.png" height="400" /> vs <img src="https://github.gatech.edu/vunadkat6/sleep-pattern-analysis/blob/main/documentation/Images/vunadkat6-sleep-pattern-analysis.png" height="400" />
+
+### Architecture Diagram
+<img src="https://github.gatech.edu/vunadkat6/sleep-pattern-analysis/blob/main/documentation/Images/architecture_diagram.png" height="300" />
 
 
 <!-- CONTACT -->
 ## Contact
 
 Vatsal Paresh Unadkat - vunadkat6@gatech.edu
-
 Project Link: [https://github.gatech.edu/vunadkat6/sleep-pattern-analysis](https://github.gatech.edu/vunadkat6/sleep-pattern-analysis)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+<!-- MARKDOWN LINKS -->
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [React-url]: https://reactjs.org/
