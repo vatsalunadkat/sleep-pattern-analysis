@@ -10,7 +10,7 @@
     <br />
     <a href="https://github.gatech.edu/pages/vunadkat6/sleep-pattern-analysis/">Visit App</a>
     ·
-    <a href="https://github.gatech.edu/vunadkat6/sleep-pattern-analysis">View Demo</a>
+    <a href="https://youtu.be/rrk0dRZUqbY">View Demo</a>
     ·
     <a href="https://github.gatech.edu/vunadkat6/sleep-pattern-analysis/issues/new">Report Bug</a>
     ·
