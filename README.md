@@ -8,13 +8,13 @@
     An awesome application to analyze your sleep data and export it! (FHIR compatable)
     <br />
     <br />
-    <a href="https://github.gatech.edu/pages/vunadkat6/sleep-pattern-analysis/">Visit App</a>
+    <a href="https://vatsalunadkat.github.io/sleep-pattern-analysis/">Visit App</a>
     ·
     <a href="https://youtu.be/rrk0dRZUqbY">View Demo</a>
     ·
-    <a href="https://github.gatech.edu/vunadkat6/sleep-pattern-analysis/issues/new">Report Bug</a>
+    <a href="https://github.com/vatsalunadkat/sleep-pattern-analysis/issues">Report Bug</a>
     ·
-    <a href="https://github.gatech.edu/vunadkat6/sleep-pattern-analysis/issues/new">Request Feature</a>
+    <a href="https://github.com/vatsalunadkat/sleep-pattern-analysis/issues">Request Feature</a>
   </p>
 </div>
 
@@ -63,7 +63,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 <div align="center">
-  <img src="https://github.gatech.edu/vunadkat6/sleep-pattern-analysis/blob/main/documentation/Images/vunadkat6-sleep-pattern-analysis.png" height="400" />
+  <img src="https://github.com/vatsalunadkat/sleep-pattern-analysis/blob/e9c002705fff6561a0f68450b7da10759fb7592b/documentation/Images/vunadkat6-sleep-pattern-analysis.png" height="400" />
 </div>
 
 Sleep is one of the fundamental needs of the human body. It directly affects our physical and mental health. It’s not only important to have the required amount of hours of sleep but it’s also important to have quality sleep. While some people thrive on having a long 8-hour sleep session, others function better when taking naps during the day and a shorter 6-hour sleep session at night. The sleep needs of each individual differ according to their body. It is only by tracking and analyzing the sleep data, we can come to know if these needs are fulfilled properly. The main aim of the Sleep Pattern Analysis App (SPAA) is to make the user aware of which sleeping pattern works best for them.
@@ -92,7 +92,7 @@ The Sleep Pattern Analysis App (SPAA) empowers users by providing them with a de
 When you open the webpage simply click on the button `Sample Data`.
 
 ### Using provided test data
-There are 4 data files located in the folder <a href="https://github.gatech.edu/vunadkat6/sleep-pattern-analysis/tree/main/sample_import_data">sample_import_data</a>. Each file includes about 1-month worth of real sleep data I have expoted from my Fitbit accout.
+There are 4 data files located in the folder <a href="https://github.com/vatsalunadkat/sleep-pattern-analysis/tree/e9c002705fff6561a0f68450b7da10759fb7592b/sample_import_data">sample_import_data</a>. Each file includes about 1-month worth of real sleep data I have expoted from my Fitbit accout.
 
 ### Using your own data
 First fetch your own data using the steps mentioned below. Then click on the `Import` button and upload your .json file to view the analysis.
@@ -227,7 +227,7 @@ First fetch your own data using the steps mentioned below. Then click on the `Im
 - [ ] Enhanced compatibility - Add support to directly import data from the Fitbit APIs, as well as integration and support with Apple Health and Garmin.
 - [ ] Integration with Wearable Devices - Integrating with wearable devices to directly import sleep data, providing real-time insights and personalized recommendations.
 
-See the [open issues](https://github.gatech.edu/vunadkat6/sleep-pattern-analysis/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/vatsalunadkat/sleep-pattern-analysis/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -237,10 +237,10 @@ See the [open issues](https://github.gatech.edu/vunadkat6/sleep-pattern-analysis
 ## Project Artifacts
 
 ### Screen Mockups vs Current Webpage
-<img src="https://github.gatech.edu/vunadkat6/sleep-pattern-analysis/blob/main/documentation/Images/screen_mockups.png" height="400" /> vs <img src="https://github.gatech.edu/vunadkat6/sleep-pattern-analysis/blob/main/documentation/Images/vunadkat6-sleep-pattern-analysis.png" height="400" />
+<img src="https://github.com/vatsalunadkat/sleep-pattern-analysis/blob/e9c002705fff6561a0f68450b7da10759fb7592b/documentation/Images/screen_mockups.png" height="400" /> vs <img src="https://github.com/vatsalunadkat/sleep-pattern-analysis/blob/e9c002705fff6561a0f68450b7da10759fb7592b/documentation/Images/vunadkat6-sleep-pattern-analysis.png" height="400" />
 
 ### Architecture Diagram
-<img src="https://github.gatech.edu/vunadkat6/sleep-pattern-analysis/blob/main/documentation/Images/architecture_diagram.png" height="300" />
+<img src="https://github.com/vatsalunadkat/sleep-pattern-analysis/blob/e9c002705fff6561a0f68450b7da10759fb7592b/documentation/Images/architecture_diagram.png" height="300" />
 
 ### Sleep Data Calculations
 1. **Calculate Levels Summary:**
