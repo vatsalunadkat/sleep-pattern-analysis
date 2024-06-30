@@ -8,13 +8,13 @@
     An awesome application to analyze your sleep data and export it! (FHIR compatable)
     <br />
     <br />
-    <a href="https://github.gatech.edu/pages/vunadkat6/sleep-pattern-analysis/">Visit App</a>
+    <a href="https://vatsalunadkat.github.io/sleep-pattern-analysis/">Visit App</a>
     ·
     <a href="https://youtu.be/rrk0dRZUqbY">View Demo</a>
     ·
-    <a href="https://github.gatech.edu/vunadkat6/sleep-pattern-analysis/issues/new">Report Bug</a>
+    <a href="https://github.com/vatsalunadkat/sleep-pattern-analysis/issues">Report Bug</a>
     ·
-    <a href="https://github.gatech.edu/vunadkat6/sleep-pattern-analysis/issues/new">Request Feature</a>
+    <a href="https://github.com/vatsalunadkat/sleep-pattern-analysis/issues">Request Feature</a>
   </p>
 </div>
 
